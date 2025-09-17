@@ -137,7 +137,6 @@ export function TreasuryDashboard({ club }: TreasuryDashboardProps) {
                   cy="50%"
                   innerRadius={60}
                   outerRadius={100}
-                  paddingAngle={5}
                   dataKey="value"
                 >
                   {allocationData.map((entry, index) => (
