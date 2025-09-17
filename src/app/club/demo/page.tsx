@@ -77,10 +77,8 @@ export default function AuthenticatedDemoClubPage() {
                   <ClubHeader club={mockClub} />
 
                   {/* Treasury Chart */}
-                  <TreasuryChart 
-                    club={mockClub} 
-                    activeTimeRange={activeTimeRange}
-                    onTimeRangeChange={setActiveTimeRange}
+                  <TreasuryChart
+                    club={mockClub}
                   />
 
                   {/* Expandable Sections */}
