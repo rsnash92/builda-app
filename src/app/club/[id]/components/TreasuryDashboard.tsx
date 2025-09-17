@@ -1,8 +1,8 @@
 'use client'
 
 import { ClubWithMembers } from '@/lib/database/types'
-import { DollarSign, TrendingUp, TrendingDown, PieChart, BarChart3 } from 'lucide-react'
-import { PieChart as RechartsPieChart, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { DollarSign, TrendingUp, TrendingDown, BarChart3 } from 'lucide-react'
+import { PieChart, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 interface TreasuryDashboardProps {
   club: ClubWithMembers
@@ -131,20 +131,18 @@ export function TreasuryDashboard({ club }: TreasuryDashboardProps) {
             <h3 className="text-lg font-semibold text-white mb-4">Treasury Allocation</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
-                <RechartsPieChart>
-                  <PieChart
-                    data={allocationData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={100}
-                    paddingAngle={5}
-                    dataKey="value"
-                  >
-                    {allocationData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </PieChart>
+                <PieChart
+                  data={allocationData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={100}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {allocationData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
                   <Tooltip
                     contentStyle={{
                       backgroundColor: '#1F2937',
@@ -154,7 +152,7 @@ export function TreasuryDashboard({ club }: TreasuryDashboardProps) {
                     }}
                     formatter={(value: number) => [`$${value.toLocaleString()}`, 'Amount']}
                   />
-                </RechartsPieChart>
+                </PieChart>
               </ResponsiveContainer>
             </div>
           </div>

@@ -1,81 +1,78 @@
 'use client'
 
 import { ClubWithMembers } from '@/lib/database/types'
-import { Building2, Package, TrendingUp, Calendar } from 'lucide-react'
+import { Code, Package, TrendingUp, CheckCircle } from 'lucide-react'
 
 interface BuildingSectionProps {
   club: ClubWithMembers
 }
 
 export function BuildingSection({ club }: BuildingSectionProps) {
-  // Mock data for current projects
   const currentProjects = [
     {
       id: 1,
-      name: "Decentralized Voting System",
-      description: "Building a transparent governance mechanism for club decisions",
+      name: 'Web3 Platform',
+      description: 'Building a decentralized platform for builders',
       progress: 75,
-      value: 50000,
-      deadline: "2024-02-15"
+      contributors: 12,
+      value: 50000
     },
     {
       id: 2,
-      name: "NFT Marketplace Integration",
-      description: "Creating a marketplace for club-created digital assets",
+      name: 'NFT Collection',
+      description: 'Creating a community-driven NFT collection',
       progress: 45,
-      value: 30000,
-      deadline: "2024-03-01"
+      contributors: 8,
+      value: 25000
     }
   ]
 
-  // Mock data for shipped items
   const shippedItems = [
     {
       id: 1,
-      name: "Club Website",
-      description: "Modern, responsive website for the club",
+      name: 'Builder Tools v1.0',
+      description: 'Essential tools for web3 builders',
       value: 15000,
-      shippedDate: "2024-01-15"
+      shipped: '2024-01-15'
     },
     {
       id: 2,
-      name: "Token Contract",
-      description: "Smart contract for club governance tokens",
-      value: 25000,
-      shippedDate: "2024-01-20"
+      name: 'Community Dashboard',
+      description: 'Dashboard for club management',
+      value: 8000,
+      shipped: '2024-01-10'
     }
   ]
 
   const totalValueCreated = shippedItems.reduce((sum, item) => sum + item.value, 0)
 
   return (
-    <div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
-      <div className="flex items-center space-x-2 mb-6">
-        <Building2 className="h-6 w-6 text-orange-500" />
-        <h2 className="text-xl font-bold text-white">What We're Building</h2>
-      </div>
-      
+    <div className="space-y-6">
       {/* Current Projects */}
-      <div className="mb-8">
-        <h3 className="text-lg font-semibold text-white mb-4">Current Projects</h3>
+      <div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
+        <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+          <Code className="h-5 w-5 mr-2 text-orange-500" />
+          What We're Building
+        </h3>
+        
         <div className="space-y-4">
           {currentProjects.map((project) => (
             <div key={project.id} className="bg-gray-800 rounded-lg p-4">
-              <div className="flex items-start justify-between mb-2">
+              <div className="flex items-start justify-between mb-3">
                 <div>
                   <h4 className="text-white font-semibold">{project.name}</h4>
                   <p className="text-gray-400 text-sm">{project.description}</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-white font-semibold">${project.value.toLocaleString()}</div>
-                  <div className="text-gray-400 text-sm">Value</div>
+                  <p className="text-orange-500 font-semibold">${project.value.toLocaleString()}</p>
+                  <p className="text-gray-400 text-sm">{project.contributors} contributors</p>
                 </div>
               </div>
               
-              <div className="mt-3">
-                <div className="flex items-center justify-between text-sm mb-1">
-                  <span className="text-gray-400">Progress</span>
-                  <span className="text-white">{project.progress}%</span>
+              <div className="mb-2">
+                <div className="flex justify-between text-sm text-gray-400 mb-1">
+                  <span>Progress</span>
+                  <span>{project.progress}%</span>
                 </div>
                 <div className="w-full bg-gray-700 rounded-full h-2">
                   <div 
@@ -84,51 +81,47 @@ export function BuildingSection({ club }: BuildingSectionProps) {
                   ></div>
                 </div>
               </div>
-              
-              <div className="mt-3 flex items-center space-x-4 text-sm text-gray-400">
-                <div className="flex items-center space-x-1">
-                  <Calendar className="h-4 w-4" />
-                  <span>Due: {new Date(project.deadline).toLocaleDateString()}</span>
-                </div>
-              </div>
             </div>
           ))}
         </div>
       </div>
-      
+
       {/* Shipped Items */}
-      <div>
-        <h3 className="text-lg font-semibold text-white mb-4">Recently Shipped</h3>
+      <div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
+        <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+          <Package className="h-5 w-5 mr-2 text-green-500" />
+          Recently Shipped
+        </h3>
+        
         <div className="space-y-3">
           {shippedItems.map((item) => (
-            <div key={item.id} className="flex items-center justify-between bg-gray-800 rounded-lg p-3">
+            <div key={item.id} className="flex items-center justify-between py-3 border-b border-gray-800 last:border-b-0">
               <div className="flex items-center space-x-3">
-                <Package className="h-5 w-5 text-green-500" />
+                <CheckCircle className="h-5 w-5 text-green-500" />
                 <div>
-                  <div className="text-white font-medium">{item.name}</div>
-                  <div className="text-gray-400 text-sm">{item.description}</div>
+                  <p className="text-white font-medium">{item.name}</p>
+                  <p className="text-gray-400 text-sm">{item.description}</p>
+                  <p className="text-gray-500 text-xs">Shipped {new Date(item.shipped).toLocaleDateString()}</p>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-white font-semibold">${item.value.toLocaleString()}</div>
-                <div className="text-gray-400 text-sm">
-                  {new Date(item.shippedDate).toLocaleDateString()}
-                </div>
+                <p className="text-green-500 font-semibold">${item.value.toLocaleString()}</p>
               </div>
             </div>
           ))}
         </div>
       </div>
-      
+
       {/* Total Value Created */}
-      <div className="mt-6 bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-lg p-4 border border-orange-500/20">
+      <div className="bg-gradient-to-r from-orange-500/10 to-orange-600/10 rounded-lg p-6 border border-orange-500/20">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <TrendingUp className="h-5 w-5 text-orange-500" />
-            <span className="text-white font-semibold">Total Value Created</span>
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-1">Total Value Created</h3>
+            <p className="text-gray-400">Combined value of all shipped projects</p>
           </div>
-          <div className="text-2xl font-bold text-orange-500">
-            ${totalValueCreated.toLocaleString()}
+          <div className="text-right">
+            <p className="text-3xl font-bold text-orange-500">${totalValueCreated.toLocaleString()}</p>
+            <p className="text-gray-400 text-sm">+12.5% this month</p>
           </div>
         </div>
       </div>

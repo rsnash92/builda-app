@@ -2,8 +2,8 @@
 
 import { useSupabase } from '../contexts/SupabaseContext'
 import { useState, useEffect } from 'react'
-import { ClubWithMembers } from '@/lib/database/types'
-import { ClubService } from '@/lib/services/club-service'
+import { ClubWithMembers } from '../lib/database/types'
+import { ClubService } from '../lib/services/club-service'
 import Link from 'next/link'
 import { 
   Plus, 
@@ -46,7 +46,7 @@ export default function AppDashboard() {
   }
 
   return (
-    <div className="h-full bg-black p-6">
+    <div className="h-screen bg-black p-6">
       {/* Welcome Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">
@@ -145,10 +145,10 @@ export default function AppDashboard() {
                   <span>Create Club</span>
                 </Link>
                 <Link
-                  href="/"
+                  href="/club/demo"
                   className="flex items-center space-x-2 bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg transition-colors"
                 >
-                  <span>Browse Clubs</span>
+                  <span>View Demo Club</span>
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -158,7 +158,7 @@ export default function AppDashboard() {
               {clubs.map((club) => (
                 <Link
                   key={club.id}
-                  href={`/app/club/${club.id}`}
+                  href={`/club/${club.id}`}
                   className="block bg-gray-900 rounded-lg p-6 border border-gray-800 hover:border-orange-500 transition-colors"
                 >
                   <div className="flex items-center justify-between">
@@ -222,18 +222,11 @@ export default function AppDashboard() {
                 <span className="text-white">Create New Club</span>
               </Link>
               <Link
-                href="/app/club/demo"
+                href="/club/demo"
                 className="flex items-center space-x-3 p-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
               >
                 <Building2 className="h-5 w-5 text-blue-500" />
                 <span className="text-white">View Demo Club</span>
-              </Link>
-              <Link
-                href="/"
-                className="flex items-center space-x-3 p-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
-              >
-                <Users className="h-5 w-5 text-green-500" />
-                <span className="text-white">Browse All Clubs</span>
               </Link>
             </div>
           </div>
