@@ -100,8 +100,6 @@ export default function AuthenticatedClubPage() {
                   {/* Treasury Chart */}
                   <TreasuryChart 
                     club={club} 
-                    activeTimeRange={activeTimeRange}
-                    onTimeRangeChange={setActiveTimeRange}
                   />
 
                   {/* Expandable Sections */}
