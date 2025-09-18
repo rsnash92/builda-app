@@ -54,15 +54,18 @@ export default function DiscordClubPage() {
   const clubStats = {
     treasury: 148900,
     yourShare: 0.34,
-    activity: 'High' as const
+    activity: 'High' as const,
+    todaysBuilds: 12,
+    buildStreak: 7,
+    buidlDistributed: 5234
   }
 
   const topBuilders = [
-    { id: '1', name: 'alice', earnings: 3450, rank: 1 },
-    { id: '2', name: 'bob', earnings: 2890, rank: 2 },
-    { id: '3', name: 'carol', earnings: 2100, rank: 3 },
-    { id: '4', name: 'david', earnings: 1850, rank: 4 },
-    { id: '5', name: 'eve', earnings: 1650, rank: 5 }
+    { id: '1', name: 'alice', earnings: 3450, rank: 1, built: 'Shipped trading bot v2' },
+    { id: '2', name: 'bob', earnings: 2890, rank: 2, built: 'Fixed 5 critical bugs' },
+    { id: '3', name: 'carol', earnings: 2100, rank: 3, built: 'UI redesign complete' },
+    { id: '4', name: 'david', earnings: 1850, rank: 4, built: 'Database optimization' },
+    { id: '5', name: 'eve', earnings: 1650, rank: 5, built: 'API documentation' }
   ]
 
   const handleChannelSelect = (channelId: string, type: 'text' | 'voice' | 'announcement' | 'special') => {

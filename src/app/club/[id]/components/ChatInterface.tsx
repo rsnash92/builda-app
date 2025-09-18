@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Send, Smile, Paperclip, AtSign, Hash, Mic, Megaphone, Gem } from 'lucide-react'
+import { Send, Smile, Paperclip, AtSign, Hash, Mic, Megaphone, Gem, Hammer, BarChart3, Package } from 'lucide-react'
 
 interface Message {
   id: string
@@ -48,7 +48,7 @@ export function ChatInterface({ channelName, channelType }: ChatInterfaceProps) 
       id: '4',
       user: 'System',
       avatar: 'S',
-      content: 'Treasury milestone reached! Club hit $100K treasury value. 🎉',
+      content: '━━━━━━━━━━━━━━━━━━━━━━\n🎉 TREASURY MILESTONE REACHED! \nClub hit $100K treasury value\n━━━━━━━━━━━━━━━━━━━━━━',
       timestamp: '2:40 PM',
       isSystem: true
     },
@@ -108,12 +108,37 @@ export function ChatInterface({ channelName, channelType }: ChatInterfaceProps) 
                 </div>
               )}
               
-              <p className={`text-gray-300 text-sm ${msg.isSystem ? 'text-gray-400 italic' : ''}`}>
-                {msg.content}
-              </p>
+              {msg.isSystem && msg.content.includes('━━━━━━━━━━━━━━━━━━━━━━') ? (
+                <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 rounded-lg p-4 text-center">
+                  <div className="text-orange-400 font-bold text-lg mb-2">🎉 TREASURY MILESTONE REACHED!</div>
+                  <div className="text-white text-sm">Club hit $100K treasury value</div>
+                </div>
+              ) : (
+                <p className={`text-gray-300 text-sm ${msg.isSystem ? 'text-gray-400 italic' : ''}`}>
+                  {msg.content}
+                </p>
+              )}
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Quick Actions */}
+      <div className="px-4 py-2 border-t border-gray-700">
+        <div className="flex items-center space-x-2">
+          <button className="flex items-center space-x-1 px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors">
+            <Hammer className="h-4 w-4" />
+            <span>Update Status</span>
+          </button>
+          <button className="flex items-center space-x-1 px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors">
+            <BarChart3 className="h-4 w-4" />
+            <span>Create Proposal</span>
+          </button>
+          <button className="flex items-center space-x-1 px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors">
+            <Gem className="h-4 w-4" />
+            <span>View Treasury</span>
+          </button>
+        </div>
       </div>
 
       {/* Message Input */}
@@ -124,7 +149,7 @@ export function ChatInterface({ channelName, channelType }: ChatInterfaceProps) 
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder={`Message #${channelName}`}
+              placeholder="What are you building?"
               className="w-full bg-gray-800 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
             <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
@@ -136,6 +161,13 @@ export function ChatInterface({ channelName, channelType }: ChatInterfaceProps) 
               </button>
             </div>
           </div>
+          <button
+            type="button"
+            className="flex items-center space-x-1 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+          >
+            <Package className="h-4 w-4" />
+            <span className="text-sm">Ship Update</span>
+          </button>
           <button
             type="submit"
             className="p-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors"

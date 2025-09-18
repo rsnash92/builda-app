@@ -27,7 +27,8 @@ import {
   BarChart3,
   Hammer,
   Crown,
-  Star
+  Star,
+  Bell
 } from 'lucide-react'
 
 interface DiscordLayoutProps {
@@ -56,12 +57,16 @@ interface DiscordLayoutProps {
     treasury: number
     yourShare: number
     activity: 'High' | 'Medium' | 'Low'
+    todaysBuilds: number
+    buildStreak: number
+    buidlDistributed: number
   }
   topBuilders?: Array<{
     id: string
     name: string
     earnings: number
     rank: number
+    built: string
   }>
 }
 
@@ -91,12 +96,12 @@ export function DiscordLayout({
     { id: 'general', name: 'general', type: 'text', category: 'DISCUSSION' },
     { id: 'building-chat', name: 'building-chat', type: 'text', category: 'DISCUSSION' },
     { id: 'random', name: 'random', type: 'text', category: 'DISCUSSION' },
-    { id: 'dev-talk', name: 'dev-talk', type: 'text', category: 'BUILDING' },
-    { id: 'strategy', name: 'strategy-discussion', type: 'text', category: 'BUILDING' },
+    { id: 'dev-talk', name: 'dev-talk', type: 'text', category: 'BUILDING', buildActivity: '3 PRs today' },
+    { id: 'strategy', name: 'strategy-discussion', type: 'text', category: 'BUILDING', buildActivity: '2 new' },
     { id: 'show-work', name: 'show-your-work', type: 'text', category: 'BUILDING' },
     { id: 'builders-lounge', name: "Builder's Lounge", type: 'voice', category: 'VOICE', isActive: true },
     { id: 'focus-room', name: 'Focus Room', type: 'voice', category: 'VOICE' },
-    { id: 'treasury', name: 'treasury', type: 'special', category: 'CLUB TOOLS' },
+    { id: 'treasury', name: 'treasury', type: 'special', category: 'CLUB TOOLS', buildActivity: 'Vote active!' },
     { id: 'governance', name: 'governance', type: 'special', category: 'CLUB TOOLS' },
     { id: 'resources', name: 'resources', type: 'special', category: 'CLUB TOOLS' },
     { id: 'analytics', name: 'analytics', type: 'special', category: 'CLUB TOOLS' },
@@ -130,29 +135,37 @@ export function DiscordLayout({
   }
 
   return (
-    <div className="h-screen bg-gray-900 flex">
+    <div className="h-screen bg-gray-900 flex flex-col">
+      {/* Main Header */}
+      <div className="h-16 bg-black border-b border-gray-600 flex items-center justify-between px-6">
+        <div className="flex items-center space-x-4">
+          <h1 className="text-xl font-bold text-white">builda.club</h1>
+        </div>
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-lg">
+            <span className="text-orange-400 font-semibold">Your $BUIDL: 12,450</span>
+            <button className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-sm font-medium transition-colors">
+              Daily Claim Available
+            </button>
+          </div>
+          <button className="p-2 text-gray-400 hover:text-white transition-colors">
+            <Bell className="h-5 w-5" />
+          </button>
+        </div>
+      </div>
+      
+      <div className="flex flex-1">
       {/* Left Sidebar - Discord-Style Club Switcher */}
-      <div className={`${sidebarCollapsed ? 'w-16' : 'w-60'} bg-gray-800 transition-all duration-300 flex flex-col`}>
+      <div className="w-16 bg-gray-800 flex flex-col">
         {/* Logo */}
         <div className="p-4 border-b border-gray-700">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
-              <Zap className="h-5 w-5 text-white" />
-            </div>
-            {!sidebarCollapsed && (
-              <span className="text-white font-bold text-lg">builda</span>
-            )}
+          <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
+            <Zap className="h-5 w-5 text-white" />
           </div>
         </div>
 
         {/* Your Clubs */}
         <div className="flex-1 py-4">
-          {!sidebarCollapsed && (
-            <div className="px-4 mb-4">
-              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">YOUR CLUBS</h3>
-            </div>
-          )}
-          
           <div className="space-y-1 px-2">
             {clubs.map((club) => (
               <div
@@ -160,20 +173,19 @@ export function DiscordLayout({
                 className={`relative group cursor-pointer ${
                   club.isActive ? 'bg-orange-500' : 'hover:bg-gray-700'
                 } rounded-lg p-2 transition-colors`}
+                title={club.name}
               >
-                <div className="flex items-center space-x-3">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm ${
-                    club.isActive ? 'bg-white' : 'bg-gray-600'
-                  }`}>
-                    {club.icon}
-                  </div>
-                  {!sidebarCollapsed && (
-                    <>
-                      <span className="text-white font-medium text-sm truncate">{club.name}</span>
-                      {club.isActive && (
-                        <div className="w-2 h-2 bg-white rounded-full"></div>
-                      )}
-                    </>
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm ${
+                  club.isActive ? 'bg-white' : 'bg-gray-600'
+                }`}>
+                  {club.icon}
+                </div>
+                
+                {/* Hover Tooltip */}
+                <div className="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                  {club.name}
+                  {club.isActive && (
+                    <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-0 h-0 border-t-2 border-b-2 border-r-2 border-transparent border-r-gray-900"></div>
                   )}
                 </div>
               </div>
@@ -181,53 +193,31 @@ export function DiscordLayout({
             
             {/* Create/Join Club */}
             <div className="mt-2">
-              <div className="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
+              <div 
+                className="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded-lg flex items-center justify-center cursor-pointer transition-colors group"
+                title="Create/Join Club"
+              >
                 <Plus className="h-5 w-5 text-gray-300" />
+                
+                {/* Hover Tooltip */}
+                <div className="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                  Create/Join Club
+                </div>
               </div>
             </div>
           </div>
-
-          {/* Platform Navigation */}
-          {!sidebarCollapsed && (
-            <div className="mt-8 px-4">
-              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">PLATFORM</h3>
-              <div className="space-y-1">
-                {platformNav.map((item) => {
-                  const Icon = item.icon
-                  const isActive = pathname === item.href
-                  
-                  return (
-                    <Link
-                      key={item.id}
-                      href={item.href}
-                      className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
-                        isActive
-                          ? 'bg-gray-700 text-white'
-                          : 'text-gray-400 hover:bg-gray-700 hover:text-white'
-                      }`}
-                    >
-                      <Icon className="h-5 w-5" />
-                      <span className="text-sm font-medium">{item.label}</span>
-                    </Link>
-                  )
-                })}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* User Profile */}
         <div className="p-4 border-t border-gray-700">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-sm">Y</span>
+          <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center group cursor-pointer" title="Your Profile - Level 7 Builder">
+            <span className="text-white font-bold text-sm">Y</span>
+            
+            {/* Hover Tooltip */}
+            <div className="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+              <div>Your Name</div>
+              <div className="text-gray-400 text-xs">Level 7 Builder</div>
             </div>
-            {!sidebarCollapsed && (
-              <div className="flex-1 min-w-0">
-                <p className="text-white text-sm font-medium truncate">Your Name</p>
-                <p className="text-gray-400 text-xs">Level 7 Builder</p>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -276,11 +266,18 @@ export function DiscordLayout({
                     >
                       <Icon className="h-4 w-4" />
                       <span className="text-sm font-medium">{channel.name}</span>
-                      {channel.unread && (
-                        <span className="ml-auto bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full">
-                          {channel.unread}
-                        </span>
-                      )}
+                      <div className="ml-auto flex items-center space-x-1">
+                        {channel.buildActivity && (
+                          <span className="bg-green-500 text-white text-xs px-2 py-0.5 rounded-full">
+                            {channel.buildActivity}
+                          </span>
+                        )}
+                        {channel.unread && (
+                          <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full">
+                            {channel.unread}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   )
                 })}
@@ -332,8 +329,13 @@ export function DiscordLayout({
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-white text-sm font-medium truncate">{member.name}</p>
-                    {member.activity && (
-                      <p className="text-gray-400 text-xs truncate">{member.activity}</p>
+                    {member.isBuilding ? (
+                      <div className="flex items-center space-x-1">
+                        <span className="text-orange-400 text-xs">🔨</span>
+                        <p className="text-orange-400 text-xs truncate">{member.activity}</p>
+                      </div>
+                    ) : (
+                      <p className="text-gray-500 text-xs">(idle)</p>
                     )}
                   </div>
                 </div>
@@ -355,13 +357,16 @@ export function DiscordLayout({
                   <span className="text-green-400 text-sm font-semibold">{clubStats.yourShare}%</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400 text-sm">Activity:</span>
-                  <span className={`text-sm font-semibold ${
-                    clubStats.activity === 'High' ? 'text-green-400' :
-                    clubStats.activity === 'Medium' ? 'text-yellow-400' : 'text-red-400'
-                  }`}>
-                    {clubStats.activity}
-                  </span>
+                  <span className="text-gray-400 text-sm">Today's Builds:</span>
+                  <span className="text-blue-400 text-sm font-semibold">{clubStats.todaysBuilds} PRs shipped</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400 text-sm">Build Streak:</span>
+                  <span className="text-orange-400 text-sm font-semibold">🔥 {clubStats.buildStreak} days</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400 text-sm">$BUIDL Distributed:</span>
+                  <span className="text-yellow-400 text-sm font-semibold">{clubStats.buidlDistributed.toLocaleString()}</span>
                 </div>
               </div>
             </div>
@@ -370,25 +375,29 @@ export function DiscordLayout({
           {/* Top Builders */}
           <div className="p-4">
             <h3 className="text-white font-semibold text-sm mb-3">TOP BUILDERS</h3>
-            <div className="space-y-2">
+            <div className="space-y-3">
               {topBuilders.map((builder) => (
-                <div key={builder.id} className="flex items-center space-x-2">
-                  <div className="flex items-center space-x-1">
-                    {builder.rank === 1 && <Crown className="h-3 w-3 text-yellow-400" />}
-                    {builder.rank === 2 && <Star className="h-3 w-3 text-gray-400" />}
-                    {builder.rank === 3 && <Star className="h-3 w-3 text-orange-400" />}
-                    <span className="text-gray-400 text-xs w-4">{builder.rank}.</span>
+                <div key={builder.id} className="space-y-1">
+                  <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-1">
+                      {builder.rank === 1 && <Crown className="h-3 w-3 text-yellow-400" />}
+                      {builder.rank === 2 && <Star className="h-3 w-3 text-gray-400" />}
+                      {builder.rank === 3 && <Star className="h-3 w-3 text-orange-400" />}
+                      <span className="text-gray-400 text-xs w-4">{builder.rank}.</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white text-sm font-medium truncate">{builder.name}</p>
+                      <p className="text-orange-400 text-xs">{builder.earnings.toLocaleString()} $BUIDL</p>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-white text-sm font-medium truncate">{builder.name}</p>
-                    <p className="text-orange-400 text-xs">{builder.earnings.toLocaleString()} $BUIDL</p>
-                  </div>
+                  <p className="text-gray-500 text-xs ml-6 italic">"{builder.built}"</p>
                 </div>
               ))}
             </div>
           </div>
         </div>
       )}
+      </div>
     </div>
   )
 }
