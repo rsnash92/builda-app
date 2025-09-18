@@ -42,7 +42,14 @@ import {
   BarChart3,
   Hammer,
   Crown,
-  Star
+  Star,
+  ChevronDown,
+  Settings,
+  Shield,
+  UserPlus,
+  Copy,
+  ExternalLink,
+  MoreHorizontal
 } from 'lucide-react'
 
 interface DiscordLayoutProps {
@@ -350,16 +357,76 @@ export function DiscordLayout({
         <div className="flex flex-1">
           {/* Second Panel - Channel List */}
           <div className="w-60 bg-gray-800 border-r border-gray-700 flex flex-col">
-            {/* Club Header */}
-            <div className="p-4 border-b border-gray-700">
-              <div className="flex items-center justify-between">
-                <h2 className="text-white font-semibold text-lg">{currentClub?.name || 'Select a Club'}</h2>
-                <button
-                  onClick={() => setRightPanelCollapsed(!rightPanelCollapsed)}
-                  className="p-1 text-gray-400 hover:text-white transition-colors"
-                >
-                  {rightPanelCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-                </button>
+            {/* Club Header with Thumbnail */}
+            <div className="relative">
+              {/* Club Thumbnail Banner */}
+              <div className="h-20 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 relative overflow-hidden">
+                {/* Decorative pattern overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/10 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-black/20 to-transparent"></div>
+                
+                {/* Club Icon */}
+                <div className="absolute bottom-2 left-3">
+                  <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center border-4 border-gray-800 shadow-lg">
+                    <Zap className="h-6 w-6 text-orange-500" />
+                  </div>
+                </div>
+                
+                {/* Club Name Overlay */}
+                <div className="absolute bottom-2 left-20 right-3">
+                  <h2 className="text-white font-bold text-lg truncate drop-shadow-lg">
+                    {currentClub?.name || 'builda.club'}
+                  </h2>
+                  <div className="flex items-center space-x-1 mt-1">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span className="text-green-400 text-xs font-medium">Verified</span>
+                  </div>
+                </div>
+                
+                {/* Dropdown Menu Button */}
+                <div className="absolute top-2 right-2">
+                  <div className="relative">
+                    <button className="p-1 text-white/80 hover:text-white hover:bg-black/20 rounded transition-colors">
+                      <ChevronDown className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Club Management Dropdown */}
+              <div className="bg-gray-800 border-b border-gray-700">
+                <div className="px-3 py-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider">Club Management</span>
+                    <button className="p-1 text-gray-400 hover:text-white transition-colors">
+                      <MoreHorizontal className="h-3 w-3" />
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Management Links */}
+                <div className="px-3 pb-2 space-y-1">
+                  <button className="w-full flex items-center space-x-2 px-2 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded text-sm transition-colors">
+                    <Settings className="h-4 w-4" />
+                    <span>Club Settings</span>
+                  </button>
+                  <button className="w-full flex items-center space-x-2 px-2 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded text-sm transition-colors">
+                    <Shield className="h-4 w-4" />
+                    <span>Roles & Permissions</span>
+                  </button>
+                  <button className="w-full flex items-center space-x-2 px-2 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded text-sm transition-colors">
+                    <UserPlus className="h-4 w-4" />
+                    <span>Invite Members</span>
+                  </button>
+                  <button className="w-full flex items-center space-x-2 px-2 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded text-sm transition-colors">
+                    <Copy className="h-4 w-4" />
+                    <span>Copy Club Link</span>
+                  </button>
+                  <button className="w-full flex items-center space-x-2 px-2 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded text-sm transition-colors">
+                    <ExternalLink className="h-4 w-4" />
+                    <span>View Club Page</span>
+                  </button>
+                </div>
               </div>
             </div>
 
