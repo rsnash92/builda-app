@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode, useState } from 'react'
+import { ReactNode, useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { 
@@ -165,7 +165,26 @@ export function DiscordLayout({
 }: DiscordLayoutProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [rightPanelCollapsed, setRightPanelCollapsed] = useState(false)
+  const [clubDropdownOpen, setClubDropdownOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setClubDropdownOpen(false)
+      }
+    }
+
+    if (clubDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [clubDropdownOpen])
 
   // Mock channels data
   const defaultChannels = [
@@ -385,47 +404,57 @@ export function DiscordLayout({
                 
                 {/* Dropdown Menu Button */}
                 <div className="absolute top-2 right-2">
-                  <div className="relative">
-                    <button className="p-1 text-white/80 hover:text-white hover:bg-black/20 rounded transition-colors">
-                      <ChevronDown className="h-4 w-4" />
+                  <div className="relative" ref={dropdownRef}>
+                    <button 
+                      onClick={() => setClubDropdownOpen(!clubDropdownOpen)}
+                      className="p-1 text-white/80 hover:text-white hover:bg-black/20 rounded transition-colors"
+                    >
+                      <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${clubDropdownOpen ? 'rotate-180' : ''}`} />
                     </button>
+                    
+                    {/* Dropdown Menu */}
+                    {clubDropdownOpen && (
+                      <div className="absolute top-8 right-0 w-56 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50 animate-in fade-in-0 zoom-in-95 duration-200">
+                        <div className="py-2">
+                          <div className="px-3 py-2 border-b border-gray-700">
+                            <div className="flex items-center justify-between">
+                              <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider">Club Management</span>
+                              <button 
+                                onClick={() => setClubDropdownOpen(false)}
+                                className="p-1 text-gray-400 hover:text-white transition-colors"
+                              >
+                                <X className="h-3 w-3" />
+                              </button>
+                            </div>
+                          </div>
+                          
+                          {/* Management Links */}
+                          <div className="px-2 py-2 space-y-1">
+                            <button className="w-full flex items-center space-x-2 px-2 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded text-sm transition-colors">
+                              <Settings className="h-4 w-4" />
+                              <span>Club Settings</span>
+                            </button>
+                            <button className="w-full flex items-center space-x-2 px-2 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded text-sm transition-colors">
+                              <Shield className="h-4 w-4" />
+                              <span>Roles & Permissions</span>
+                            </button>
+                            <button className="w-full flex items-center space-x-2 px-2 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded text-sm transition-colors">
+                              <UserPlus className="h-4 w-4" />
+                              <span>Invite Members</span>
+                            </button>
+                            <button className="w-full flex items-center space-x-2 px-2 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded text-sm transition-colors">
+                              <Copy className="h-4 w-4" />
+                              <span>Copy Club Link</span>
+                            </button>
+                            <button className="w-full flex items-center space-x-2 px-2 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded text-sm transition-colors">
+                              <ExternalLink className="h-4 w-4" />
+                              <span>View Club Page</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              </div>
-              
-              {/* Club Management Dropdown */}
-              <div className="bg-gray-800 border-b border-gray-700">
-                <div className="px-3 py-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider">Club Management</span>
-                    <button className="p-1 text-gray-400 hover:text-white transition-colors">
-                      <MoreHorizontal className="h-3 w-3" />
-                    </button>
-                  </div>
-                </div>
-                
-                {/* Management Links */}
-                <div className="px-3 pb-2 space-y-1">
-                  <button className="w-full flex items-center space-x-2 px-2 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded text-sm transition-colors">
-                    <Settings className="h-4 w-4" />
-                    <span>Club Settings</span>
-                  </button>
-                  <button className="w-full flex items-center space-x-2 px-2 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded text-sm transition-colors">
-                    <Shield className="h-4 w-4" />
-                    <span>Roles & Permissions</span>
-                  </button>
-                  <button className="w-full flex items-center space-x-2 px-2 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded text-sm transition-colors">
-                    <UserPlus className="h-4 w-4" />
-                    <span>Invite Members</span>
-                  </button>
-                  <button className="w-full flex items-center space-x-2 px-2 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded text-sm transition-colors">
-                    <Copy className="h-4 w-4" />
-                    <span>Copy Club Link</span>
-                  </button>
-                  <button className="w-full flex items-center space-x-2 px-2 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded text-sm transition-colors">
-                    <ExternalLink className="h-4 w-4" />
-                    <span>View Club Page</span>
-                  </button>
                 </div>
               </div>
             </div>
