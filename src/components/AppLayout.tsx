@@ -27,7 +27,10 @@ import {
   Brain,
   Wrench,
   MessageCircle,
-  PartyPopper
+  PartyPopper,
+  Building2,
+  Gem,
+  BookOpen
 } from 'lucide-react'
 
 interface AppLayoutProps {
@@ -39,6 +42,9 @@ interface AppLayoutProps {
 const navigationItems = [
   { id: 'home', icon: Home, href: '/', label: 'Home' },
   { id: 'clubs', icon: LayoutDashboard, href: '/', label: 'Clubs' },
+  { id: 'build', icon: Building2, href: '/build', label: 'Build' },
+  { id: 'vaults', icon: Gem, href: '/vaults', label: 'Vaults' },
+  { id: 'learn', icon: BookOpen, href: '/learn', label: 'Learn' },
   { id: 'leaderboard', icon: Trophy, href: '/leaderboard', label: 'Leaderboard' },
   { id: 'earn', icon: DollarSign, href: '/earn', label: 'Earn' },
   { id: 'news', icon: Newspaper, href: '/news', label: 'News' },
