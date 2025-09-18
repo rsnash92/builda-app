@@ -249,13 +249,15 @@ export function DiscordLayout({
 
         {/* Channels */}
         <div className="flex-1 overflow-y-auto py-4">
-          {defaultChannels.reduce((acc, channel) => {
-            if (!acc[channel.category!]) {
-              acc[channel.category!] = []
-            }
-            acc[channel.category!].push(channel)
-            return acc
-          }, {} as { [key: string]: any[] }).map(([category, categoryChannels]) => (
+          {Object.entries(
+            defaultChannels.reduce((acc, channel) => {
+              if (!acc[channel.category!]) {
+                acc[channel.category!] = []
+              }
+              acc[channel.category!].push(channel)
+              return acc
+            }, {} as { [key: string]: any[] })
+          ).map(([category, categoryChannels]) => (
             <div key={category} className="mb-6">
               <div className="px-4 mb-2">
                 <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{category}</h3>
