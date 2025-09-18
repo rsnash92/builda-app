@@ -16,6 +16,7 @@ import { ChatSection } from './components/ChatSection'
 import { TreasuryDashboard } from './components/TreasuryDashboard'
 import { ResourcesSection } from './components/ResourcesSection'
 import { MemberDashboard } from './components/MemberDashboard'
+import { AppLayout } from '@/components/AppLayout'
 
 export default function AuthenticatedClubPage() {
   const params = useParams()
@@ -123,7 +124,7 @@ export default function AuthenticatedClubPage() {
   }
 
   return (
-    <>
+    <AppLayout pageTitle={club.name}>
       {/* Club Navigation */}
       <ClubNavigation 
         club={club} 
@@ -133,6 +134,6 @@ export default function AuthenticatedClubPage() {
       
       {/* Dynamic Content Based on Active Tab */}
       {renderContent()}
-    </>
+    </AppLayout>
   )
 }

@@ -14,6 +14,7 @@ import {
   Calendar,
   DollarSign
 } from 'lucide-react'
+import { AppLayout } from '../components/AppLayout'
 
 export default function AppDashboard() {
   const { profile } = useSupabase()
@@ -46,16 +47,17 @@ export default function AppDashboard() {
   }
 
   return (
-    <div className="h-screen bg-black p-6">
-      {/* Welcome Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2">
-          Welcome back, {profile?.display_name || 'Builder'}! 👋
-        </h1>
-        <p className="text-gray-400">
-          Ready to build something amazing with your community?
-        </p>
-      </div>
+    <AppLayout pageTitle="Dashboard">
+      <div className="p-6">
+        {/* Welcome Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-white mb-2">
+            Welcome back, {profile?.display_name || 'Builder'}! 👋
+          </h1>
+          <p className="text-gray-400">
+            Ready to build something amazing with your community?
+          </p>
+        </div>
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -232,6 +234,7 @@ export default function AppDashboard() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </AppLayout>
   )
 }
