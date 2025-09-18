@@ -4,16 +4,33 @@ import { ReactNode, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { 
+  LayoutDashboard, 
+  Plane, 
+  Play, 
+  Box, 
+  Search, 
+  Calendar, 
+  Users,
+  ChevronRight,
+  Sun,
+  Moon,
+  Bell,
+  Menu,
+  X,
   Home,
   Trophy,
   DollarSign,
   Newspaper,
-  Plus,
-  Settings,
-  Users,
-  ChevronRight,
-  ChevronLeft,
   Zap,
+  Flame,
+  Gamepad2,
+  Brain,
+  Wrench,
+  MessageCircle,
+  PartyPopper,
+  Building2,
+  Gem,
+  BookOpen,
   MessageSquare,
   Mic,
   MicOff,
@@ -21,18 +38,16 @@ import {
   VolumeX,
   Hash,
   Megaphone,
-  Wrench,
-  Gem,
   Vote,
   BarChart3,
   Hammer,
   Crown,
-  Star,
-  Bell
+  Star
 } from 'lucide-react'
 
 interface DiscordLayoutProps {
   children: ReactNode
+  pageTitle?: string
   currentClub?: {
     id: string
     name: string
@@ -70,8 +85,71 @@ interface DiscordLayoutProps {
   }>
 }
 
+const navigationItems = [
+  { id: 'home', icon: Home, href: '/', label: 'Home' },
+  { id: 'clubs', icon: LayoutDashboard, href: '/', label: 'Clubs' },
+  { id: 'build', icon: Building2, href: '/build', label: 'Build' },
+  { id: 'vaults', icon: Gem, href: '/vaults', label: 'Vaults' },
+  { id: 'learn', icon: BookOpen, href: '/learn', label: 'Learn' },
+  { id: 'leaderboard', icon: Trophy, href: '/leaderboard', label: 'Leaderboard' },
+  { id: 'earn', icon: DollarSign, href: '/earn', label: 'Earn' },
+  { id: 'news', icon: Newspaper, href: '/news', label: 'News' },
+]
+
+const categories = [
+  { 
+    id: 'crypto', 
+    name: 'Crypto', 
+    count: 24, 
+    icon: Zap,
+    color: 'from-pink-500 to-blue-500',
+    thumbnail: '₿'
+  },
+  { 
+    id: 'gaming', 
+    name: 'Gaming', 
+    count: 22, 
+    icon: Gamepad2,
+    color: 'from-green-500 to-purple-500',
+    thumbnail: '🎮'
+  },
+  { 
+    id: 'ai', 
+    name: 'AI', 
+    count: 6, 
+    icon: Brain,
+    color: 'from-blue-500 to-cyan-500',
+    thumbnail: '🤖'
+  },
+  { 
+    id: 'utility', 
+    name: 'Utility', 
+    count: 8, 
+    icon: Wrench,
+    color: 'from-orange-500 to-red-500',
+    thumbnail: '🔧'
+  },
+  { 
+    id: 'social', 
+    name: 'Social', 
+    count: 1, 
+    icon: MessageCircle,
+    color: 'from-purple-500 to-pink-500',
+    thumbnail: '💬'
+  },
+  { 
+    id: 'fun', 
+    name: 'Fun', 
+    count: 8, 
+    icon: PartyPopper,
+    color: 'from-yellow-500 to-orange-500',
+    thumbnail: '🎉'
+  },
+]
+
 export function DiscordLayout({ 
   children, 
+  pageTitle = "builda.club",
   currentClub,
   channels = [],
   onlineMembers = [],
@@ -81,13 +159,6 @@ export function DiscordLayout({
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [rightPanelCollapsed, setRightPanelCollapsed] = useState(false)
   const pathname = usePathname()
-
-  // Mock clubs data
-  const clubs = [
-    { id: 'buidlers', name: 'BUIDLers United', icon: 'B', isActive: true },
-    { id: 'trading', name: 'TradingElite', icon: 'T', isActive: false },
-    { id: 'devdao', name: 'DevDAO', icon: 'D', isActive: false },
-  ]
 
   // Mock channels data
   const defaultChannels = [
@@ -135,91 +206,118 @@ export function DiscordLayout({
   }
 
   return (
-    <div className="h-screen bg-gray-900 flex flex-col">
-      {/* Main Header */}
-      <div className="h-16 bg-black border-b border-gray-600 flex items-center justify-between px-6">
-        <div className="flex items-center space-x-4">
-          <h1 className="text-xl font-bold text-white">builda.club</h1>
-        </div>
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-lg">
-            <span className="text-orange-400 font-semibold">Your $BUIDL: 12,450</span>
-            <button className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-sm font-medium transition-colors">
-              Daily Claim Available
-            </button>
-          </div>
-          <button className="p-2 text-gray-400 hover:text-white transition-colors">
-            <Bell className="h-5 w-5" />
+    <div className="h-screen bg-black flex">
+      {/* Main App Sidebar */}
+      <div className={`${sidebarCollapsed ? 'w-16' : 'w-64'} bg-black border-r border-gray-800 transition-all duration-300 ease-in-out flex flex-col`}>
+        {/* Header with Logo and Menu */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-700">
+          {!sidebarCollapsed && (
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
+                <Zap className="h-5 w-5 text-white" />
+              </div>
+              <span className="text-white font-bold text-lg">builda</span>
+            </div>
+          )}
+          <button
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            className="p-2 text-gray-400 hover:text-white transition-colors"
+          >
+            {sidebarCollapsed ? <Menu className="h-5 w-5" /> : <X className="h-5 w-5" />}
           </button>
         </div>
-      </div>
-      
-      <div className="flex flex-1">
-      {/* Left Sidebar - Discord-Style Club Switcher */}
-      <div className="w-16 bg-gray-800 flex flex-col">
-        {/* Logo */}
-        <div className="p-4 border-b border-gray-700">
-          <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
-            <Zap className="h-5 w-5 text-white" />
-          </div>
-        </div>
 
-        {/* Your Clubs */}
+        {/* Navigation Items */}
         <div className="flex-1 py-4">
           <div className="space-y-1 px-2">
-            {clubs.map((club) => (
-              <div
-                key={club.id}
-                className={`relative group cursor-pointer ${
-                  club.isActive ? 'bg-orange-500' : 'hover:bg-gray-700'
-                } rounded-lg p-2 transition-colors`}
-                title={club.name}
-              >
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm ${
-                  club.isActive ? 'bg-white' : 'bg-gray-600'
-                }`}>
-                  {club.icon}
-                </div>
-                
-                {/* Hover Tooltip */}
-                <div className="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
-                  {club.name}
-                  {club.isActive && (
-                    <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-0 h-0 border-t-2 border-b-2 border-r-2 border-transparent border-r-gray-900"></div>
+            {navigationItems.map((item) => {
+              const Icon = item.icon
+              const isActive = pathname === item.href || (item.id === 'home' && pathname === '/')
+              
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  className={`flex items-center px-3 py-2 rounded-lg transition-colors group ${
+                    isActive
+                      ? 'bg-gray-800 text-white'
+                      : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                  }`}
+                >
+                  <Icon className="h-5 w-5 flex-shrink-0" />
+                  {!sidebarCollapsed && (
+                    <span className="ml-3 text-sm font-medium">{item.label}</span>
                   )}
-                </div>
+                </Link>
+              )
+            })}
+          </div>
+
+          {/* Categories Section */}
+          {!sidebarCollapsed && (
+            <div className="mt-8 px-2">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">CATEGORIES</h3>
               </div>
-            ))}
-            
-            {/* Create/Join Club */}
-            <div className="mt-2">
-              <div 
-                className="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded-lg flex items-center justify-center cursor-pointer transition-colors group"
-                title="Create/Join Club"
-              >
-                <Plus className="h-5 w-5 text-gray-300" />
-                
-                {/* Hover Tooltip */}
-                <div className="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
-                  Create/Join Club
-                </div>
+              <div className="space-y-2">
+                {categories.map((category) => {
+                  const Icon = category.icon
+                  return (
+                    <div
+                      key={category.id}
+                      className="flex items-center p-2 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer group"
+                    >
+                      <div className={`w-8 h-8 rounded-lg bg-gradient-to-r ${category.color} flex items-center justify-center flex-shrink-0`}>
+                        <span className="text-white text-sm font-bold">{category.thumbnail}</span>
+                      </div>
+                      <div className="ml-3 flex-1 min-w-0">
+                        <div className="text-sm font-semibold text-white group-hover:text-white">
+                          {category.name}
+                        </div>
+                        <div className="text-xs text-gray-400">
+                          {category.count} Clubs
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
-          </div>
+          )}
+
+          {/* Collapsed Categories - Show only icons */}
+          {sidebarCollapsed && (
+            <div className="mt-8 px-2">
+              <div className="space-y-2">
+                {categories.slice(0, 4).map((category) => {
+                  const Icon = category.icon
+                  return (
+                    <div
+                      key={category.id}
+                      className={`w-8 h-8 rounded-lg bg-gradient-to-r ${category.color} flex items-center justify-center mx-auto cursor-pointer hover:scale-110 transition-transform`}
+                      title={category.name}
+                    >
+                      <span className="text-white text-sm font-bold">{category.thumbnail}</span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* User Profile */}
-        <div className="p-4 border-t border-gray-700">
-          <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center group cursor-pointer" title="Your Profile - Level 7 Builder">
-            <span className="text-white font-bold text-sm">Y</span>
-            
-            {/* Hover Tooltip */}
-            <div className="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
-              <div>Your Name</div>
-              <div className="text-gray-400 text-xs">Level 7 Builder</div>
+        {/* Bottom CTA Card */}
+        {!sidebarCollapsed && (
+          <div className="p-4">
+            <div className="bg-gray-800 rounded-xl p-4 text-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mx-auto mb-3">
+                <Zap className="h-6 w-6 text-white" />
+              </div>
+              <p className="text-white text-sm font-medium mb-1">Start building!</p>
+              <p className="text-gray-400 text-xs">Create your first club</p>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Second Panel - Channel List */}
@@ -288,8 +386,40 @@ export function DiscordLayout({
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col bg-gray-900">
-        {/* Top Bar */}
+      <div className="flex-1 flex flex-col bg-black">
+        {/* Main App Header */}
+        <header className="bg-black border-b border-gray-600">
+          <div className="px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <h1 className="text-xl font-bold text-white">{pageTitle}</h1>
+                {currentClub && (
+                  <div className="flex items-center space-x-2 text-gray-400">
+                    <span>•</span>
+                    <span className="text-sm">{currentClub.name}</span>
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center space-x-4">
+                <button className="p-2 text-gray-400 hover:text-white">
+                  <Sun className="h-5 w-5" />
+                </button>
+                <button className="p-2 text-white">
+                  <Moon className="h-5 w-5" />
+                </button>
+                <span className="text-gray-300 text-sm">EN</span>
+                <button className="p-2 text-gray-400 hover:text-white">
+                  <Bell className="h-5 w-5" />
+                </button>
+                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                  <span className="text-white text-sm font-bold">Y</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Discord Channel Header */}
         <div className="h-12 bg-gray-800 border-b border-gray-700 flex items-center px-4">
           <div className="flex items-center space-x-2">
             <Hash className="h-5 w-5 text-gray-400" />

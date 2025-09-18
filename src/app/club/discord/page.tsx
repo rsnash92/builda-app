@@ -83,6 +83,7 @@ export default function DiscordClubPage() {
 
   return (
     <DiscordLayout
+      pageTitle="Discord-Style Club"
       currentClub={{
         id: mockClub.id,
         name: mockClub.name,
