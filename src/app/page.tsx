@@ -267,13 +267,20 @@ export default function AppDashboard() {
                   <Plus className="h-4 w-4" />
                   <span>Create Club</span>
                 </Link>
-                <Link
-                  href="/club/demo"
-                  className="flex items-center space-x-2 bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg transition-colors"
-                >
-                  <span>View Demo Club</span>
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
+              <Link
+                href="/club/demo"
+                className="flex items-center space-x-2 bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg transition-colors"
+              >
+                <span>View Demo Club</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/club/discord"
+                className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors"
+              >
+                <span>Discord-Style Interface</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
               </div>
             </div>
           ) : (
