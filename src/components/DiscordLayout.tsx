@@ -178,29 +178,21 @@ export function DiscordLayout({
     { id: 'analytics', name: 'analytics', type: 'special', category: 'CLUB TOOLS' },
   ]
 
-  const platformNav = [
-    { id: 'home', icon: Home, label: 'Home', href: '/' },
-    { id: 'leaderboard', icon: Trophy, label: 'Leaderboard', href: '/leaderboard' },
-    { id: 'earn', icon: DollarSign, label: 'Earn', href: '/earn' },
-    { id: 'news', icon: Newspaper, label: 'News', href: '/news' },
-  ]
-
-  const getChannelIcon = (type: string) => {
+  const getChannelIcon = (type: string, name?: string) => {
+    if (type === 'special' && name) {
+      const iconMap: { [key: string]: any } = {
+        'treasury': Gem,
+        'governance': Vote,
+        'resources': Wrench,
+        'analytics': BarChart3
+      }
+      return iconMap[name] || Hash
+    }
+    
     switch (type) {
       case 'text': return Hash
       case 'voice': return Mic
       case 'announcement': return Megaphone
-      case 'special':
-        return (props: any) => {
-          const iconMap: { [key: string]: any } = {
-            'treasury': Gem,
-            'governance': Vote,
-            'resources': Wrench,
-            'analytics': BarChart3
-          }
-          const Icon = iconMap[props.name] || Hash
-          return <Icon {...props} />
-        }
       default: return Hash
     }
   }
@@ -330,7 +322,7 @@ export function DiscordLayout({
               onClick={() => setRightPanelCollapsed(!rightPanelCollapsed)}
               className="p-1 text-gray-400 hover:text-white transition-colors"
             >
-              {rightPanelCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+              {rightPanelCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
             </button>
           </div>
         </div>
@@ -352,7 +344,7 @@ export function DiscordLayout({
               </div>
               <div className="space-y-1">
                 {categoryChannels.map((channel) => {
-                  const Icon = getChannelIcon(channel.type)
+                  const Icon = getChannelIcon(channel.type, channel.name)
                   return (
                     <div
                       key={channel.id}
@@ -527,7 +519,6 @@ export function DiscordLayout({
           </div>
         </div>
       )}
-      </div>
     </div>
   )
 }
