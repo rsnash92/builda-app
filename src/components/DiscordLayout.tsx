@@ -312,71 +312,6 @@ export function DiscordLayout({
         )}
       </div>
 
-      {/* Second Panel - Channel List */}
-      <div className="w-60 bg-gray-800 border-r border-gray-700 flex flex-col">
-        {/* Club Header */}
-        <div className="p-4 border-b border-gray-700">
-          <div className="flex items-center justify-between">
-            <h2 className="text-white font-semibold text-lg">{currentClub?.name || 'Select a Club'}</h2>
-            <button
-              onClick={() => setRightPanelCollapsed(!rightPanelCollapsed)}
-              className="p-1 text-gray-400 hover:text-white transition-colors"
-            >
-              {rightPanelCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Channels */}
-        <div className="flex-1 overflow-y-auto py-4">
-          {Object.entries(
-            defaultChannels.reduce((acc, channel) => {
-              if (!acc[channel.category!]) {
-                acc[channel.category!] = []
-              }
-              acc[channel.category!].push(channel)
-              return acc
-            }, {} as { [key: string]: any[] })
-          ).map(([category, categoryChannels]) => (
-            <div key={category} className="mb-6">
-              <div className="px-4 mb-2">
-                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{category}</h3>
-              </div>
-              <div className="space-y-1">
-                {categoryChannels.map((channel) => {
-                  const Icon = getChannelIcon(channel.type, channel.name)
-                  return (
-                    <div
-                      key={channel.id}
-                      className={`flex items-center space-x-2 px-4 py-1.5 cursor-pointer transition-colors ${
-                        channel.isActive
-                          ? 'bg-gray-700 text-white'
-                          : 'text-gray-400 hover:bg-gray-700 hover:text-white'
-                      }`}
-                    >
-                      <Icon className="h-4 w-4" />
-                      <span className="text-sm font-medium">{channel.name}</span>
-                      <div className="ml-auto flex items-center space-x-1">
-                        {channel.buildActivity && (
-                          <span className="bg-green-500 text-white text-xs px-2 py-0.5 rounded-full">
-                            {channel.buildActivity}
-                          </span>
-                        )}
-                        {channel.unread && (
-                          <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full">
-                            {channel.unread}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col bg-black">
         {/* Main App Header */}
@@ -411,114 +346,185 @@ export function DiscordLayout({
           </div>
         </header>
 
-        {/* Discord Channel Header */}
-        <div className="h-12 bg-gray-800 border-b border-gray-700 flex items-center px-4">
-          <div className="flex items-center space-x-2">
-            <Hash className="h-5 w-5 text-gray-400" />
-            <span className="text-white font-semibold">general</span>
-          </div>
-          <div className="ml-4 text-gray-400 text-sm">
-            Welcome to the general channel. Say hi!
-          </div>
-        </div>
+        {/* Discord Sub-Panels Row */}
+        <div className="flex flex-1">
+          {/* Second Panel - Channel List */}
+          <div className="w-60 bg-gray-800 border-r border-gray-700 flex flex-col">
+            {/* Club Header */}
+            <div className="p-4 border-b border-gray-700">
+              <div className="flex items-center justify-between">
+                <h2 className="text-white font-semibold text-lg">{currentClub?.name || 'Select a Club'}</h2>
+                <button
+                  onClick={() => setRightPanelCollapsed(!rightPanelCollapsed)}
+                  className="p-1 text-gray-400 hover:text-white transition-colors"
+                >
+                  {rightPanelCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                </button>
+              </div>
+            </div>
 
-        {/* Content */}
-        <div className="flex-1 overflow-hidden">
-          {children}
-        </div>
-      </div>
-
-      {/* Right Panel - Members & Stats */}
-      {!rightPanelCollapsed && (
-        <div className="w-60 bg-gray-800 border-l border-gray-700 flex flex-col">
-          {/* Online Members */}
-          <div className="p-4 border-b border-gray-700">
-            <h3 className="text-white font-semibold text-sm mb-3">ONLINE — {onlineMembers.length}</h3>
-            <div className="space-y-2">
-              {onlineMembers.map((member) => (
-                <div key={member.id} className="flex items-center space-x-2">
-                  <div className="relative">
-                    <div className="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">
-                        {member.name.charAt(0).toUpperCase()}
-                      </span>
-                    </div>
-                    {member.isBuilding && (
-                      <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-orange-500 rounded-full flex items-center justify-center">
-                        <Hammer className="h-2 w-2 text-white" />
-                      </div>
-                    )}
+            {/* Channels */}
+            <div className="flex-1 overflow-y-auto py-4">
+              {Object.entries(
+                defaultChannels.reduce((acc, channel) => {
+                  if (!acc[channel.category!]) {
+                    acc[channel.category!] = []
+                  }
+                  acc[channel.category!].push(channel)
+                  return acc
+                }, {} as { [key: string]: any[] })
+              ).map(([category, categoryChannels]) => (
+                <div key={category} className="mb-6">
+                  <div className="px-4 mb-2">
+                    <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{category}</h3>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-white text-sm font-medium truncate">{member.name}</p>
-                    {member.isBuilding ? (
-                      <div className="flex items-center space-x-1">
-                        <span className="text-orange-400 text-xs">🔨</span>
-                        <p className="text-orange-400 text-xs truncate">{member.activity}</p>
-                      </div>
-                    ) : (
-                      <p className="text-gray-500 text-xs">(idle)</p>
-                    )}
+                  <div className="space-y-1">
+                    {categoryChannels.map((channel) => {
+                      const Icon = getChannelIcon(channel.type, channel.name)
+                      return (
+                        <div
+                          key={channel.id}
+                          className={`flex items-center space-x-2 px-4 py-1.5 cursor-pointer transition-colors ${
+                            channel.isActive
+                              ? 'bg-gray-700 text-white'
+                              : 'text-gray-400 hover:bg-gray-700 hover:text-white'
+                          }`}
+                        >
+                          <Icon className="h-4 w-4" />
+                          <span className="text-sm font-medium">{channel.name}</span>
+                          <div className="ml-auto flex items-center space-x-1">
+                            {channel.buildActivity && (
+                              <span className="bg-green-500 text-white text-xs px-2 py-0.5 rounded-full">
+                                {channel.buildActivity}
+                              </span>
+                            )}
+                            {channel.unread && (
+                              <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full">
+                                {channel.unread}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      )
+                    })}
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Club Stats */}
-          {clubStats && (
-            <div className="p-4 border-b border-gray-700">
-              <h3 className="text-white font-semibold text-sm mb-3">CLUB STATS</h3>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-400 text-sm">Treasury:</span>
-                  <span className="text-white text-sm font-semibold">${clubStats.treasury.toLocaleString()}</span>
+          {/* Main Chat Area */}
+          <div className="flex-1 flex flex-col">
+            {/* Discord Channel Header */}
+            <div className="h-12 bg-gray-800 border-b border-gray-700 flex items-center px-4">
+              <div className="flex items-center space-x-2">
+                <Hash className="h-5 w-5 text-gray-400" />
+                <span className="text-white font-semibold">general</span>
+              </div>
+              <div className="ml-4 text-gray-400 text-sm">
+                Welcome to the general channel. Say hi!
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 overflow-hidden">
+              {children}
+            </div>
+          </div>
+
+          {/* Right Panel - Members & Stats */}
+          {!rightPanelCollapsed && (
+            <div className="w-60 bg-gray-800 border-l border-gray-700 flex flex-col">
+              {/* Online Members */}
+              <div className="p-4 border-b border-gray-700">
+                <h3 className="text-white font-semibold text-sm mb-3">ONLINE — {onlineMembers.length}</h3>
+                <div className="space-y-2">
+                  {onlineMembers.map((member) => (
+                    <div key={member.id} className="flex items-center space-x-2">
+                      <div className="relative">
+                        <div className="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
+                          <span className="text-white text-xs font-bold">
+                            {member.name.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                        {member.isBuilding && (
+                          <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-orange-500 rounded-full flex items-center justify-center">
+                            <Hammer className="h-2 w-2 text-white" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-white text-sm font-medium truncate">{member.name}</p>
+                        {member.isBuilding ? (
+                          <div className="flex items-center space-x-1">
+                            <span className="text-orange-400 text-xs">🔨</span>
+                            <p className="text-orange-400 text-xs truncate">{member.activity}</p>
+                          </div>
+                        ) : (
+                          <p className="text-gray-500 text-xs">(idle)</p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400 text-sm">Your Share:</span>
-                  <span className="text-green-400 text-sm font-semibold">{clubStats.yourShare}%</span>
+              </div>
+
+              {/* Club Stats */}
+              {clubStats && (
+                <div className="p-4 border-b border-gray-700">
+                  <h3 className="text-white font-semibold text-sm mb-3">CLUB STATS</h3>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400 text-sm">Treasury:</span>
+                      <span className="text-white text-sm font-semibold">${clubStats.treasury.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400 text-sm">Your Share:</span>
+                      <span className="text-green-400 text-sm font-semibold">{clubStats.yourShare}%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400 text-sm">Today's Builds:</span>
+                      <span className="text-blue-400 text-sm font-semibold">{clubStats.todaysBuilds} PRs shipped</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400 text-sm">Build Streak:</span>
+                      <span className="text-orange-400 text-sm font-semibold">🔥 {clubStats.buildStreak} days</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400 text-sm">$BUIDL Distributed:</span>
+                      <span className="text-yellow-400 text-sm font-semibold">{clubStats.buidlDistributed.toLocaleString()}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400 text-sm">Today's Builds:</span>
-                  <span className="text-blue-400 text-sm font-semibold">{clubStats.todaysBuilds} PRs shipped</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400 text-sm">Build Streak:</span>
-                  <span className="text-orange-400 text-sm font-semibold">🔥 {clubStats.buildStreak} days</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400 text-sm">$BUIDL Distributed:</span>
-                  <span className="text-yellow-400 text-sm font-semibold">{clubStats.buidlDistributed.toLocaleString()}</span>
+              )}
+
+              {/* Top Builders */}
+              <div className="p-4">
+                <h3 className="text-white font-semibold text-sm mb-3">TOP BUILDERS</h3>
+                <div className="space-y-3">
+                  {topBuilders.map((builder) => (
+                    <div key={builder.id} className="space-y-1">
+                      <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-1">
+                          {builder.rank === 1 && <Crown className="h-3 w-3 text-yellow-400" />}
+                          {builder.rank === 2 && <Star className="h-3 w-3 text-gray-400" />}
+                          {builder.rank === 3 && <Star className="h-3 w-3 text-orange-400" />}
+                          <span className="text-gray-400 text-xs w-4">{builder.rank}.</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white text-sm font-medium truncate">{builder.name}</p>
+                          <p className="text-orange-400 text-xs">{builder.earnings.toLocaleString()} $BUIDL</p>
+                        </div>
+                      </div>
+                      <p className="text-gray-500 text-xs ml-6 italic">"{builder.built}"</p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
           )}
-
-          {/* Top Builders */}
-          <div className="p-4">
-            <h3 className="text-white font-semibold text-sm mb-3">TOP BUILDERS</h3>
-            <div className="space-y-3">
-              {topBuilders.map((builder) => (
-                <div key={builder.id} className="space-y-1">
-                  <div className="flex items-center space-x-2">
-                    <div className="flex items-center space-x-1">
-                      {builder.rank === 1 && <Crown className="h-3 w-3 text-yellow-400" />}
-                      {builder.rank === 2 && <Star className="h-3 w-3 text-gray-400" />}
-                      {builder.rank === 3 && <Star className="h-3 w-3 text-orange-400" />}
-                      <span className="text-gray-400 text-xs w-4">{builder.rank}.</span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-white text-sm font-medium truncate">{builder.name}</p>
-                      <p className="text-orange-400 text-xs">{builder.earnings.toLocaleString()} $BUIDL</p>
-                    </div>
-                  </div>
-                  <p className="text-gray-500 text-xs ml-6 italic">"{builder.built}"</p>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
-      )}
+      </div>
     </div>
   )
 }
