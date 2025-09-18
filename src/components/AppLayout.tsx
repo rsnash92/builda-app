@@ -33,6 +33,7 @@ import {
 interface AppLayoutProps {
   children: ReactNode
   pageTitle?: string
+  additionalHeaderContent?: ReactNode
 }
 
 const navigationItems = [
@@ -94,7 +95,7 @@ const categories = [
   },
 ]
 
-export function AppLayout({ children, pageTitle = "builda.club" }: AppLayoutProps) {
+export function AppLayout({ children, pageTitle = "builda.club", additionalHeaderContent }: AppLayoutProps) {
   const pathname = usePathname()
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
 
@@ -216,27 +217,35 @@ export function AppLayout({ children, pageTitle = "builda.club" }: AppLayoutProp
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col bg-black">
         {/* Top Header Bar */}
-        <header className="bg-black border-b border-gray-600 px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <h1 className="text-xl font-bold text-white">{pageTitle}</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <button className="p-2 text-gray-400 hover:text-white">
-                <Sun className="h-5 w-5" />
-              </button>
-              <button className="p-2 text-white">
-                <Moon className="h-5 w-5" />
-              </button>
-              <span className="text-gray-300 text-sm">EN</span>
-              <button className="p-2 text-gray-400 hover:text-white">
-                <Bell className="h-5 w-5" />
-              </button>
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-bold">Y</span>
+        <header className="bg-black border-b border-gray-600">
+          <div className="px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <h1 className="text-xl font-bold text-white">{pageTitle}</h1>
+              </div>
+              <div className="flex items-center space-x-4">
+                <button className="p-2 text-gray-400 hover:text-white">
+                  <Sun className="h-5 w-5" />
+                </button>
+                <button className="p-2 text-white">
+                  <Moon className="h-5 w-5" />
+                </button>
+                <span className="text-gray-300 text-sm">EN</span>
+                <button className="p-2 text-gray-400 hover:text-white">
+                  <Bell className="h-5 w-5" />
+                </button>
+                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                  <span className="text-white text-sm font-bold">Y</span>
+                </div>
               </div>
             </div>
           </div>
+          {/* Additional Header Content */}
+          {additionalHeaderContent && (
+            <div className="border-t border-gray-700">
+              {additionalHeaderContent}
+            </div>
+          )}
         </header>
 
         {/* Main Content */}

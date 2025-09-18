@@ -17,6 +17,7 @@ import { TreasuryDashboard } from './components/TreasuryDashboard'
 import { ResourcesSection } from './components/ResourcesSection'
 import { MemberDashboard } from './components/MemberDashboard'
 import { AppLayout } from '@/components/AppLayout'
+import { ClubHeaderNavigation } from './components/ClubHeaderNavigation'
 
 export default function AuthenticatedClubPage() {
   const params = useParams()
@@ -124,14 +125,16 @@ export default function AuthenticatedClubPage() {
   }
 
   return (
-    <AppLayout pageTitle={club.name}>
-      {/* Club Navigation */}
-      <ClubNavigation 
-        club={club} 
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
-      
+    <AppLayout 
+      pageTitle={club.name}
+      additionalHeaderContent={
+        <ClubHeaderNavigation 
+          club={club} 
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+        />
+      }
+    >
       {/* Dynamic Content Based on Active Tab */}
       {renderContent()}
     </AppLayout>

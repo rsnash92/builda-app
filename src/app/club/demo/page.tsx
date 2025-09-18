@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ClubNavigation } from '../[id]/components/ClubNavigation'
+import { ClubHeaderNavigation } from '../[id]/components/ClubHeaderNavigation'
 import { ClubHeader } from '../[id]/components/ClubHeader'
 import { TreasuryChart } from '../[id]/components/TreasuryChart'
 import { JoinPanel } from '../[id]/components/JoinPanel'
@@ -103,14 +103,16 @@ export default function AuthenticatedDemoClubPage() {
   }
 
   return (
-    <AppLayout pageTitle={mockClub.name}>
-      {/* Club Navigation */}
-      <ClubNavigation 
-        club={mockClub} 
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
-      
+    <AppLayout 
+      pageTitle={mockClub.name}
+      additionalHeaderContent={
+        <ClubHeaderNavigation 
+          club={mockClub} 
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+        />
+      }
+    >
       {/* Dynamic Content Based on Active Tab */}
       {renderContent()}
     </AppLayout>
