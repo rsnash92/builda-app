@@ -22,8 +22,8 @@ export function ClubHeaderNavigation({ club, activeTab, onTabChange }: ClubHeade
     { id: 'overview', label: 'Overview', icon: Building2 },
     { id: 'chat', label: 'Chat', icon: MessageSquare },
     { id: 'treasury', label: 'Treasury', icon: TrendingUp },
-    { id: 'governance', label: 'Governance', icon: Shield },
     { id: 'resources', label: 'Resources', icon: Package },
+    { id: 'governance', label: 'Governance', icon: Shield },
     { id: 'members', label: 'Members', icon: Users },
     { id: 'settings', label: 'Settings', icon: Settings },
   ]

@@ -1,7 +1,7 @@
 'use client'
 
 import { ClubWithMembers } from '@/lib/database/types'
-import { TrendingUp, Users, Calendar, ExternalLink } from 'lucide-react'
+import { TrendingUp, Users, Calendar, ExternalLink, Hammer, Activity } from 'lucide-react'
 
 interface ClubHeaderProps {
   club: ClubWithMembers
@@ -54,6 +54,10 @@ export function ClubHeader({ club }: ClubHeaderProps) {
             <div>
               <p className="text-gray-400 text-sm">Active Members</p>
               <p className="text-2xl font-bold text-white">{club.member_count}</p>
+              <div className="flex items-center space-x-1 mt-1">
+                <Hammer className="h-3 w-3 text-orange-400" />
+                <span className="text-orange-400 text-xs">12 building now</span>
+              </div>
             </div>
             <Users className="h-8 w-8 text-orange-500" />
           </div>

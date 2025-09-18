@@ -15,6 +15,8 @@ import { ResourcesSection } from '../[id]/components/ResourcesSection'
 import { MemberDashboard } from '../[id]/components/MemberDashboard'
 import { ClubWithMembers } from '@/lib/database/types'
 import { AppLayout } from '@/components/AppLayout'
+import { QuickStatsBar } from '../[id]/components/QuickStatsBar'
+import { RecentActivity } from '../[id]/components/RecentActivity'
 
 // Mock club data for demo
 const mockClub: ClubWithMembers = {
@@ -69,31 +71,37 @@ export default function AuthenticatedDemoClubPage() {
         )
       default: // overview
         return (
-          <div className="px-6 py-8">
-            <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Left Column - Main Content */}
-                <div className="lg:col-span-2 space-y-8">
-                  {/* Club Header */}
-                  <ClubHeader club={mockClub} />
+          <div>
+            {/* Quick Stats Bar */}
+            <QuickStatsBar club={mockClub} />
+            
+            <div className="px-6 py-8">
+              <div className="max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  {/* Left Column - Main Content */}
+                  <div className="lg:col-span-2 space-y-8">
+                    {/* Club Header */}
+                    <ClubHeader club={mockClub} />
 
-                  {/* Treasury Chart */}
-                  <TreasuryChart
-                    club={mockClub}
-                  />
+                    {/* Treasury Chart */}
+                    <TreasuryChart
+                      club={mockClub}
+                    />
 
-                  {/* Expandable Sections */}
-                  <div className="space-y-6">
-                    <BuildingSection club={mockClub} />
-                    <TreasurySection club={mockClub} />
-                    <GovernanceSection club={mockClub} />
+                    {/* Expandable Sections */}
+                    <div className="space-y-6">
+                      <BuildingSection club={mockClub} />
+                      <TreasurySection club={mockClub} />
+                      <GovernanceSection club={mockClub} />
+                    </div>
                   </div>
-                </div>
 
-                {/* Right Column - Join Panel */}
-                <div className="lg:col-span-1">
-                  <JoinPanel club={mockClub} />
-                  <BuildersSection club={mockClub} />
+                  {/* Right Column - Join Panel & Activity */}
+                  <div className="lg:col-span-1 space-y-6">
+                    <JoinPanel club={mockClub} />
+                    <RecentActivity club={mockClub} />
+                    <BuildersSection club={mockClub} />
+                  </div>
                 </div>
               </div>
             </div>

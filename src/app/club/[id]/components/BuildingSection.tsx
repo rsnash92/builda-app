@@ -15,15 +15,29 @@ export function BuildingSection({ club }: BuildingSectionProps) {
       description: 'Building a decentralized platform for builders',
       progress: 75,
       contributors: 12,
-      value: 50000
+      value: 50000,
+      status: 'In Progress',
+      timeline: 'Shipping next month'
     },
     {
       id: 2,
-      name: 'NFT Collection',
-      description: 'Creating a community-driven NFT collection',
-      progress: 45,
+      name: 'Trading Bot v2',
+      description: 'Advanced trading bot with ML integration',
+      progress: 90,
+      contributors: 5,
+      value: 30000,
+      status: 'Shipping next week',
+      timeline: 'Final testing phase'
+    },
+    {
+      id: 3,
+      name: 'Education Portal',
+      description: 'Comprehensive learning platform for Web3',
+      progress: 25,
       contributors: 8,
-      value: 25000
+      value: 20000,
+      status: 'Just started',
+      timeline: 'Need developers!'
     }
   ]
 
@@ -59,11 +73,15 @@ export function BuildingSection({ club }: BuildingSectionProps) {
           {currentProjects.map((project) => (
             <div key={project.id} className="bg-gray-800 rounded-lg p-4">
               <div className="flex items-start justify-between mb-3">
-                <div>
+                <div className="flex-1">
                   <h4 className="text-white font-semibold">{project.name}</h4>
-                  <p className="text-gray-400 text-sm">{project.description}</p>
+                  <p className="text-gray-400 text-sm mb-2">{project.description}</p>
+                  <div className="flex items-center space-x-4 text-xs">
+                    <span className="text-orange-400 font-medium">{project.status}</span>
+                    <span className="text-gray-500">{project.timeline}</span>
+                  </div>
                 </div>
-                <div className="text-right">
+                <div className="text-right ml-4">
                   <p className="text-orange-500 font-semibold">${project.value.toLocaleString()}</p>
                   <p className="text-gray-400 text-sm">{project.contributors} contributors</p>
                 </div>

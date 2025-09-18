@@ -12,10 +12,24 @@ export function JoinPanel({ club }: JoinPanelProps) {
   const entryCost = 1000 // Mock entry cost
   const tokenAllocation = 100 // Mock token allocation
   const votingPower = 1 // Mock voting power
+  const monthlyEarnings = 1234 // Mock monthly earnings
+  const ownershipPercentage = 0.67 // Mock ownership percentage
+  const newMemberBonus = 100 // Mock new member bonus
 
   return (
     <div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
       <h3 className="text-lg font-semibold text-white mb-4">Join This Club</h3>
+      
+      {/* Join Incentive Banner */}
+      <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-lg p-3 mb-6 border border-orange-500/30">
+        <div className="flex items-center space-x-2">
+          <span className="text-2xl">🎁</span>
+          <div>
+            <p className="text-white font-semibold text-sm">New Member Bonus</p>
+            <p className="text-orange-400 text-xs">Earn {newMemberBonus} $BUIDL bonus this week!</p>
+          </div>
+        </div>
+      </div>
       
       <div className="space-y-4 mb-6">
         <div className="flex items-center justify-between">
@@ -24,8 +38,18 @@ export function JoinPanel({ club }: JoinPanelProps) {
         </div>
         
         <div className="flex items-center justify-between">
-          <span className="text-gray-400">Token Allocation</span>
+          <span className="text-gray-400">You'll Receive</span>
           <span className="text-white font-semibold">{tokenAllocation} tokens</span>
+        </div>
+        
+        <div className="flex items-center justify-between">
+          <span className="text-gray-400">Your Ownership</span>
+          <span className="text-green-400 font-semibold">{ownershipPercentage}%</span>
+        </div>
+        
+        <div className="flex items-center justify-between">
+          <span className="text-gray-400">Avg Monthly Earnings</span>
+          <span className="text-orange-400 font-semibold">{monthlyEarnings.toLocaleString()} $BUIDL</span>
         </div>
         
         <div className="flex items-center justify-between">
@@ -48,6 +72,7 @@ export function JoinPanel({ club }: JoinPanelProps) {
         <p>• Access to club resources and tools</p>
         <p>• Participate in governance decisions</p>
         <p>• Collaborate on club projects</p>
+        <p>• Earn $BUIDL through contributions</p>
       </div>
     </div>
   )
