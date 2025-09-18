@@ -14,6 +14,7 @@ import { TreasuryDashboard } from '../[id]/components/TreasuryDashboard'
 import { ResourcesSection } from '../[id]/components/ResourcesSection'
 import { MemberDashboard } from '../[id]/components/MemberDashboard'
 import { ClubWithMembers } from '@/lib/database/types'
+import { AppLayout } from '@/components/AppLayout'
 
 // Mock club data for demo
 const mockClub: ClubWithMembers = {
@@ -102,7 +103,7 @@ export default function AuthenticatedDemoClubPage() {
   }
 
   return (
-    <>
+    <AppLayout pageTitle={mockClub.name}>
       {/* Club Navigation */}
       <ClubNavigation 
         club={mockClub} 
@@ -112,6 +113,6 @@ export default function AuthenticatedDemoClubPage() {
       
       {/* Dynamic Content Based on Active Tab */}
       {renderContent()}
-    </>
+    </AppLayout>
   )
 }
