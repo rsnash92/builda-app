@@ -3,13 +3,14 @@
 import { ReactNode, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { 
-  LayoutDashboard, 
-  Plane, 
-  Play, 
-  Box, 
-  Search, 
-  Calendar, 
+import { NotificationCenter } from './Notifications'
+import {
+  LayoutDashboard,
+  Plane,
+  Play,
+  Box,
+  Search,
+  Calendar,
   Users,
   ChevronRight,
   Sun,
@@ -30,7 +31,13 @@ import {
   PartyPopper,
   Building2,
   Gem,
-  BookOpen
+  BookOpen,
+  Plus,
+  Coins,
+  Settings,
+  Shield,
+  User,
+  Sparkles
 } from 'lucide-react'
 
 interface AppLayoutProps {
@@ -40,14 +47,11 @@ interface AppLayoutProps {
 }
 
 const navigationItems = [
-  { id: 'home', icon: Home, href: '/', label: 'Home' },
-  { id: 'clubs', icon: LayoutDashboard, href: '/', label: 'Clubs' },
-  { id: 'build', icon: Building2, href: '/build', label: 'Build' },
-  { id: 'vaults', icon: Gem, href: '/vaults', label: 'Vaults' },
-  { id: 'learn', icon: BookOpen, href: '/learn', label: 'Learn' },
-  { id: 'leaderboard', icon: Trophy, href: '/leaderboard', label: 'Leaderboard' },
-  { id: 'earn', icon: DollarSign, href: '/earn', label: 'Earn' },
-  { id: 'news', icon: Newspaper, href: '/news', label: 'News' },
+  { id: 'dashboard', icon: Home, href: '/', label: 'Dashboard' },
+  { id: 'browse', icon: Search, href: '/browse', label: 'Browse Clubs' },
+  { id: 'create', icon: Plus, href: '/create-club', label: 'Create Club' },
+  { id: 'staking', icon: Coins, href: '/staking', label: '$BUIDL Staking' },
+  { id: 'profile', icon: User, href: '/profile', label: 'Profile' },
 ]
 
 const categories = [
@@ -155,6 +159,31 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
             })}
           </div>
 
+          {/* Additional Tools Section */}
+          {!sidebarCollapsed && (
+            <div className="mt-8 px-2">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">TOOLS</h3>
+              </div>
+              <div className="space-y-1">
+                <Link
+                  href="/onboarding"
+                  className="flex items-center px-3 py-2 rounded-lg transition-colors text-gray-400 hover:bg-gray-800 hover:text-white"
+                >
+                  <Sparkles className="h-5 w-5 flex-shrink-0" />
+                  <span className="ml-3 text-sm font-medium">Get Started</span>
+                </Link>
+                <Link
+                  href="/admin"
+                  className="flex items-center px-3 py-2 rounded-lg transition-colors text-gray-400 hover:bg-gray-800 hover:text-white"
+                >
+                  <Shield className="h-5 w-5 flex-shrink-0" />
+                  <span className="ml-3 text-sm font-medium">Admin</span>
+                </Link>
+              </div>
+            </div>
+          )}
+
           {/* Categories Section */}
           {!sidebarCollapsed && (
             <div className="mt-8 px-2">
@@ -211,13 +240,15 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
         {/* Bottom CTA Card */}
         {!sidebarCollapsed && (
           <div className="p-4">
-            <div className="bg-gray-800 rounded-xl p-4 text-center">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <Zap className="h-6 w-6 text-white" />
+            <Link href="/create-club">
+              <div className="bg-gray-800 hover:bg-gray-700 rounded-xl p-4 text-center transition-colors cursor-pointer">
+                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <Plus className="h-6 w-6 text-white" />
+                </div>
+                <p className="text-white text-sm font-medium mb-1">Start building!</p>
+                <p className="text-gray-400 text-xs">Create your first club</p>
               </div>
-              <p className="text-white text-sm font-medium mb-1">Start building!</p>
-              <p className="text-gray-400 text-xs">Create your first club</p>
-            </div>
+            </Link>
           </div>
         )}
       </div>
@@ -239,12 +270,13 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
                   <Moon className="h-5 w-5" />
                 </button>
                 <span className="text-gray-300 text-sm">EN</span>
-                <button className="p-2 text-gray-400 hover:text-white">
-                  <Bell className="h-5 w-5" />
-                </button>
-                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                  <span className="text-white text-sm font-bold">Y</span>
-                </div>
+                <NotificationCenter />
+                <Link
+                  href="/profile"
+                  className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center hover:scale-105 transition-transform"
+                >
+                  <span className="text-white text-sm font-bold">B</span>
+                </Link>
               </div>
             </div>
           </div>

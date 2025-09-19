@@ -418,18 +418,18 @@ export default function AppDashboard() {
                 <span className="text-white font-semibold">Continue Building</span>
               </button>
               <Link
-                href="/treasuries"
+                href="/browse"
                 className="flex items-center space-x-3 p-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
               >
                 <Gem className="h-5 w-5 text-blue-500" />
-                <span className="text-white">Browse Treasuries</span>
+                <span className="text-white">Browse Clubs</span>
               </Link>
               <Link
-                href="/governance"
+                href="/staking"
                 className="flex items-center space-x-3 p-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
               >
                 <Vote className="h-5 w-5 text-purple-500" />
-                <span className="text-white">View Governance Votes</span>
+                <span className="text-white">Manage $BUIDL Staking</span>
               </Link>
             </div>
           </div>
