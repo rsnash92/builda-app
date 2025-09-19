@@ -131,7 +131,7 @@ export default function AppDashboard() {
 
         {/* Building-Focused Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
+          <div className="bg-dark-900 rounded-lg p-6 border border-gray-800">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm">Clubs You're Building In</p>

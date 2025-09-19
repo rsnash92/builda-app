@@ -48,6 +48,7 @@ interface AppLayoutProps {
 
 const navigationItems = [
   { id: 'dashboard', icon: Home, href: '/', label: 'Dashboard' },
+  { id: 'profile-dashboard', icon: LayoutDashboard, href: '/dashboard', label: 'Profile Dashboard' },
   { id: 'browse', icon: Search, href: '/browse', label: 'Browse Clubs' },
   { id: 'create', icon: Plus, href: '/create-club', label: 'Create Club' },
   { id: 'staking', icon: Coins, href: '/staking', label: '$BUIDL Staking' },
@@ -110,9 +111,9 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
 
   return (
-    <div className="h-screen bg-black flex">
+    <div className="h-screen bg-dark-950 flex">
       {/* Collapsible Sidebar */}
-      <div className={`${sidebarCollapsed ? 'w-16' : 'w-64'} bg-black border-r border-gray-800 transition-all duration-300 ease-in-out flex flex-col`}>
+      <div className={`${sidebarCollapsed ? 'w-16' : 'w-64'} bg-dark-900 border-r border-gray-800 transition-all duration-300 ease-in-out flex flex-col`}>
         {/* Header with Logo and Menu */}
         <div className="flex items-center justify-between p-4 border-b border-gray-700">
           {!sidebarCollapsed && (
@@ -254,26 +255,26 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col bg-black">
+      <div className="flex-1 flex flex-col bg-dark-950">
         {/* Top Header Bar */}
-        <header className="bg-black border-b border-gray-600">
+        <header className="bg-dark-900 border-b border-gray-700">
           <div className="px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <h1 className="text-xl font-bold text-white">{pageTitle}</h1>
               </div>
               <div className="flex items-center space-x-4">
+                <button className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium rounded-lg transition-colors">
+                  Get Started
+                </button>
                 <button className="p-2 text-gray-400 hover:text-white">
-                  <Sun className="h-5 w-5" />
+                  <Search className="h-5 w-5" />
                 </button>
-                <button className="p-2 text-white">
-                  <Moon className="h-5 w-5" />
-                </button>
-                <span className="text-gray-300 text-sm">EN</span>
                 <NotificationCenter />
+                <span className="text-gray-300 text-sm">Jan 20, 2025 - Feb 09, 2025</span>
                 <Link
                   href="/profile"
-                  className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center hover:scale-105 transition-transform"
+                  className="w-8 h-8 bg-gradient-to-br from-orange-400 to-pink-500 rounded-full flex items-center justify-center hover:scale-105 transition-transform"
                 >
                   <span className="text-white text-sm font-bold">B</span>
                 </Link>
