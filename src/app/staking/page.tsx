@@ -23,7 +23,8 @@ import {
   Settings,
   ExternalLink,
   BarChart3,
-  Wallet
+  Wallet,
+  Users
 } from 'lucide-react'
 
 export default function StakingPage() {

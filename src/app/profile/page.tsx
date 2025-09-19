@@ -39,7 +39,7 @@ export default function ProfilePage() {
   // Mock data - will be replaced with real data in Phase 2A
   const [profileData, setProfileData] = useState({
     displayName: profile?.display_name || 'Builder',
-    username: profile?.username || 'builder123',
+    username: 'builder123',
     bio: 'Passionate builder in the Web3 space. Love creating tools that empower communities.',
     location: 'San Francisco, CA',
     website: 'https://myportfolio.com',

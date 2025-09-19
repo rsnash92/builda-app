@@ -4,7 +4,7 @@ import { useState, forwardRef } from 'react'
 import { Eye, EyeOff, ChevronDown, X, Upload, DollarSign, Search } from 'lucide-react'
 
 // Base input component
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   label?: string
   error?: string
   hint?: string
