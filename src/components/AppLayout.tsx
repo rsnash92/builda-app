@@ -27,6 +27,7 @@ import {
 interface AppLayoutProps {
   children: ReactNode
   pageTitle?: string
+  additionalHeaderContent?: ReactNode
 }
 
 const navigationItems = [
@@ -38,7 +39,7 @@ const navigationItems = [
   { id: 'admin', icon: Settings, href: '/admin', label: 'Admin' },
 ]
 
-export function AppLayout({ children, pageTitle = "builda.club" }: AppLayoutProps) {
+export function AppLayout({ children, pageTitle = "builda.club", additionalHeaderContent }: AppLayoutProps) {
   const pathname = usePathname()
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [showHamburger, setShowHamburger] = useState(false)
@@ -196,6 +197,12 @@ export function AppLayout({ children, pageTitle = "builda.club" }: AppLayoutProp
               </button>
             </div>
           </div>
+          {/* Additional Header Content */}
+          {additionalHeaderContent && (
+            <div className="border-t border-[#24252a]">
+              {additionalHeaderContent}
+            </div>
+          )}
         </header>
 
         {/* Main Content */}
