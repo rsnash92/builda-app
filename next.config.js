@@ -18,6 +18,12 @@ const nextConfig = {
       },
     ]
   },
+  // Ensure static files are properly served
+  trailingSlash: false,
+  // Add image optimization configuration
+  images: {
+    unoptimized: true, // This helps with static file serving on Vercel
+  },
 }
 
 module.exports = nextConfig
