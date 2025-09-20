@@ -10,6 +10,9 @@ module.exports = {
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
+        border: 'var(--border)',
+        input: 'var(--input)',
+        ring: 'var(--ring)',
         primary: {
           50: '#fff7ed',
           100: '#ffedd5',
