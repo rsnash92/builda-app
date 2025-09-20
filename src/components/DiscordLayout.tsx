@@ -3,6 +3,7 @@
 import { ReactNode, useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import { AppLayout } from './AppLayout'
 import { 
   LayoutDashboard, 
   Plane, 
@@ -224,9 +225,10 @@ export function DiscordLayout({
   }
 
   return (
-    <div className="h-screen bg-black flex">
-      {/* Main App Sidebar */}
-      <div className={`${sidebarCollapsed ? 'w-16' : 'w-64'} bg-black border-r border-gray-800 transition-all duration-300 ease-in-out flex flex-col`}>
+    <AppLayout pageTitle={pageTitle}>
+      <div className="h-full bg-[#15161a] flex">
+      {/* Discord Sidebar */}
+      <div className={`${sidebarCollapsed ? 'w-16' : 'w-64'} bg-[#15161a] border-r border-[#24252a] transition-all duration-300 ease-in-out flex flex-col`}>
         {/* Header with Logo and Menu */}
         <div className="flex items-center justify-between p-4 border-b border-gray-700">
           {!sidebarCollapsed && (
@@ -623,6 +625,7 @@ export function DiscordLayout({
           )}
         </div>
       </div>
-    </div>
+      </div>
+    </AppLayout>
   )
 }
