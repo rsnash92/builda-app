@@ -3,155 +3,122 @@
 import { ReactNode, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { NotificationCenter } from './Notifications'
+import Image from 'next/image'
 import {
-  LayoutDashboard,
-  Plane,
   Play,
   Box,
   Search,
-  Calendar,
-  Users,
   ChevronRight,
-  Sun,
-  Moon,
-  Bell,
   Menu,
-  X,
   Home,
-  Trophy,
-  DollarSign,
-  Newspaper,
-  Zap,
-  Flame,
-  Gamepad2,
-  Brain,
-  Wrench,
   MessageCircle,
-  PartyPopper,
+  X,
   Building2,
-  Gem,
-  BookOpen,
-  Plus,
-  Coins,
+  DollarSign,
+  FileText,
   Settings,
-  Shield,
-  User,
-  Sparkles
+  Users,
+  LayoutDashboard,
+  Plus,
+  Sparkles,
+  Shield
 } from 'lucide-react'
 
 interface AppLayoutProps {
   children: ReactNode
   pageTitle?: string
-  additionalHeaderContent?: ReactNode
 }
 
 const navigationItems = [
-  { id: 'dashboard', icon: Home, href: '/', label: 'Dashboard' },
-  { id: 'profile-dashboard', icon: LayoutDashboard, href: '/dashboard', label: 'Profile Dashboard' },
+  { id: 'home', icon: Home, href: '/', label: 'Home' },
+  { id: 'dashboard', icon: LayoutDashboard, href: '/dashboard', label: 'Dashboard' },
   { id: 'browse', icon: Search, href: '/browse', label: 'Browse Clubs' },
-  { id: 'create', icon: Plus, href: '/create-club', label: 'Create Club' },
-  { id: 'staking', icon: Coins, href: '/staking', label: '$BUIDL Staking' },
-  { id: 'profile', icon: User, href: '/profile', label: 'Profile' },
+  { id: 'create-club', icon: Building2, href: '/create-club', label: 'Create Club' },
+  { id: 'demo', icon: Play, href: '/club/demo', label: 'Demo Club' },
+  { id: 'admin', icon: Settings, href: '/admin', label: 'Admin' },
 ]
 
-const categories = [
-  { 
-    id: 'crypto', 
-    name: 'Crypto', 
-    count: 24, 
-    icon: Zap,
-    color: 'from-pink-500 to-blue-500',
-    thumbnail: '₿'
-  },
-  { 
-    id: 'gaming', 
-    name: 'Gaming', 
-    count: 22, 
-    icon: Gamepad2,
-    color: 'from-green-500 to-purple-500',
-    thumbnail: '🎮'
-  },
-  { 
-    id: 'ai', 
-    name: 'AI', 
-    count: 6, 
-    icon: Brain,
-    color: 'from-blue-500 to-cyan-500',
-    thumbnail: '🤖'
-  },
-  { 
-    id: 'utility', 
-    name: 'Utility', 
-    count: 8, 
-    icon: Wrench,
-    color: 'from-orange-500 to-red-500',
-    thumbnail: '🔧'
-  },
-  { 
-    id: 'social', 
-    name: 'Social', 
-    count: 1, 
-    icon: MessageCircle,
-    color: 'from-purple-500 to-pink-500',
-    thumbnail: '💬'
-  },
-  { 
-    id: 'fun', 
-    name: 'Fun', 
-    count: 8, 
-    icon: PartyPopper,
-    color: 'from-yellow-500 to-orange-500',
-    thumbnail: '🎉'
-  },
-]
-
-export function AppLayout({ children, pageTitle = "builda.club", additionalHeaderContent }: AppLayoutProps) {
+export function AppLayout({ children, pageTitle = "builda.club" }: AppLayoutProps) {
   const pathname = usePathname()
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [showHamburger, setShowHamburger] = useState(false)
+
+  const toggleSidebar = () => {
+    setSidebarCollapsed(!sidebarCollapsed)
+    setShowHamburger(false) // Reset hamburger state when toggling
+  }
 
   return (
-    <div className="h-screen bg-dark-950 flex">
-      {/* Collapsible Sidebar */}
-      <div className={`${sidebarCollapsed ? 'w-16' : 'w-64'} bg-dark-900 border-r border-gray-800 transition-all duration-300 ease-in-out flex flex-col`}>
-        {/* Header with Logo and Menu */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          {!sidebarCollapsed && (
-            <div className="flex items-center space-x-2">
-              <img 
-                src="/images/logo/builda-logo.webp"
-                alt="builda.club"
-                className="w-8 h-8"
-              />
-              <span className="text-white font-bold text-lg">builda</span>
-            </div>
-          )}
-          <button
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className="p-2 text-gray-400 hover:text-white transition-colors"
-          >
-            {sidebarCollapsed ? <Menu className="h-5 w-5" /> : <X className="h-5 w-5" />}
-          </button>
-        </div>
+    <div className="h-screen pump-gradient flex">
+      {/* Collapsible Sidebar - Full Height */}
+      <div className={`${sidebarCollapsed ? 'w-16' : 'w-64'} bg-[#15161a] backdrop-blur-md border-r border-[#24252a] flex flex-col transition-all duration-300 ease-in-out`}>
+        {/* Sidebar Header with Logo and Collapse Button */}
+        <header className={`bg-[#15161a] backdrop-blur-md border-b border-[#24252a] ${sidebarCollapsed ? 'pt-[1.57rem] pb-[1.57rem] px-0' : 'pt-[1.4rem] pb-[1.4rem] px-6'}`}>
+          <div className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'justify-between'}`}>
+            {!sidebarCollapsed && (
+              <div className="flex items-center space-x-3">
+                <Image
+                  src="/builda-logo.webp"
+                  alt="builda.club"
+                  width={24}
+                  height={24}
+                  className="w-6 rounded-full"
+                  priority
+                />
+                <span className="text-white font-bold text-sm">builda.club</span>
+              </div>
+            )}
+            {sidebarCollapsed && (
+              <button
+                onClick={toggleSidebar}
+                onMouseEnter={() => setShowHamburger(true)}
+                onMouseLeave={() => setShowHamburger(false)}
+                className="flex items-center justify-center transition-all duration-200 py-0 px-0"
+              >
+                {showHamburger ? (
+                  <Menu className="w-6 h-6 text-white" />
+                ) : (
+                  <Image
+                    src="/builda-logo.webp"
+                    alt="builda.club"
+                    width={24}
+                    height={24}
+                    className="w-6 h-6 rounded-full object-contain"
+                    priority
+                  />
+                )}
+              </button>
+            )}
+            {!sidebarCollapsed && (
+              <button
+                onClick={toggleSidebar}
+                className="w-6 h-[1.5rem] rounded-full border border-orange-400 flex items-center justify-center text-orange-400 hover:bg-orange-400/10 transition-colors"
+              >
+                <ChevronRight className="h-3 w-3" />
+              </button>
+            )}
+          </div>
+        </header>
 
         {/* Navigation Items */}
         <div className="flex-1 py-4">
-          <div className="space-y-1 px-2">
+          <div className={`space-y-2 ${sidebarCollapsed ? 'px-2' : 'px-3'}`}>
             {navigationItems.map((item) => {
               const Icon = item.icon
               const isActive = pathname === item.href || (item.id === 'home' && pathname === '/')
-              
+
               return (
                 <Link
                   key={item.id}
                   href={item.href}
-                  className={`flex items-center px-3 py-2 rounded-lg transition-colors group ${
+                  className={`flex items-center ${sidebarCollapsed ? 'justify-center px-2' : 'px-3'} py-2 rounded-lg transition-colors group ${
                     isActive
-                      ? 'bg-gray-800 text-white'
-                      : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                      ? 'bg-[#202128] text-white border border-orange-400/30'
+                      : 'text-gray-400 hover:bg-[#202128]/50 hover:text-white'
                   }`}
+                  title={sidebarCollapsed ? item.label : undefined}
                 >
-                  <Icon className="h-5 w-5 flex-shrink-0" />
+                  <Icon className="h-4 w-4 flex-shrink-0" />
                   {!sidebarCollapsed && (
                     <span className="ml-3 text-sm font-medium">{item.label}</span>
                   )}
@@ -162,135 +129,77 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
 
           {/* Additional Tools Section */}
           {!sidebarCollapsed && (
-            <div className="mt-8 px-2">
+            <div className="mt-8 px-3">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">TOOLS</h3>
               </div>
               <div className="space-y-1">
                 <Link
                   href="/onboarding"
-                  className="flex items-center px-3 py-2 rounded-lg transition-colors text-gray-400 hover:bg-gray-800 hover:text-white"
+                  className="flex items-center px-3 py-2 rounded-lg transition-colors text-gray-400 hover:bg-[#202128]/50 hover:text-white"
                 >
-                  <Sparkles className="h-5 w-5 flex-shrink-0" />
+                  <Sparkles className="h-4 w-4 flex-shrink-0" />
                   <span className="ml-3 text-sm font-medium">Get Started</span>
                 </Link>
                 <Link
                   href="/admin"
-                  className="flex items-center px-3 py-2 rounded-lg transition-colors text-gray-400 hover:bg-gray-800 hover:text-white"
+                  className="flex items-center px-3 py-2 rounded-lg transition-colors text-gray-400 hover:bg-[#202128]/50 hover:text-white"
                 >
-                  <Shield className="h-5 w-5 flex-shrink-0" />
+                  <Shield className="h-4 w-4 flex-shrink-0" />
                   <span className="ml-3 text-sm font-medium">Admin</span>
                 </Link>
               </div>
             </div>
           )}
 
-          {/* Categories Section */}
+          {/* Bottom CTA Card */}
           {!sidebarCollapsed && (
-            <div className="mt-8 px-2">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">CATEGORIES</h3>
-              </div>
-              <div className="space-y-2">
-                {categories.map((category) => {
-                  const Icon = category.icon
-                  return (
-                    <div
-                      key={category.id}
-                      className="flex items-center p-2 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer group"
-                    >
-                      <div className={`w-8 h-8 rounded-lg bg-gradient-to-r ${category.color} flex items-center justify-center flex-shrink-0`}>
-                        <span className="text-white text-sm font-bold">{category.thumbnail}</span>
-                      </div>
-                      <div className="ml-3 flex-1 min-w-0">
-                        <div className="text-sm font-semibold text-white group-hover:text-white">
-                          {category.name}
-                        </div>
-                        <div className="text-xs text-gray-400">
-                          {category.count} Clubs
-                        </div>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Collapsed Categories - Show only icons */}
-          {sidebarCollapsed && (
-            <div className="mt-8 px-2">
-              <div className="space-y-2">
-                {categories.slice(0, 4).map((category) => {
-                  const Icon = category.icon
-                  return (
-                    <div
-                      key={category.id}
-                      className={`w-8 h-8 rounded-lg bg-gradient-to-r ${category.color} flex items-center justify-center mx-auto cursor-pointer hover:scale-110 transition-transform`}
-                      title={category.name}
-                    >
-                      <span className="text-white text-sm font-bold">{category.thumbnail}</span>
-                    </div>
-                  )
-                })}
-              </div>
+            <div className="absolute bottom-4 left-4 right-4">
+              <Link href="/create-club">
+                <div className="bg-[#202128] hover:bg-[#202128]/80 rounded-xl p-4 text-center transition-colors cursor-pointer border border-[#24252a]">
+                  <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center mx-auto mb-3">
+                    <Plus className="h-6 w-6 text-white" />
+                  </div>
+                  <p className="text-white text-sm font-medium mb-1">Start building!</p>
+                  <p className="text-gray-400 text-xs">Create your first club</p>
+                </div>
+              </Link>
             </div>
           )}
         </div>
-
-        {/* Bottom CTA Card */}
-        {!sidebarCollapsed && (
-          <div className="p-4">
-            <Link href="/create-club">
-              <div className="bg-gray-800 hover:bg-gray-700 rounded-xl p-4 text-center transition-colors cursor-pointer">
-                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center mx-auto mb-3">
-                  <Plus className="h-6 w-6 text-white" />
-                </div>
-                <p className="text-white text-sm font-medium mb-1">Start building!</p>
-                <p className="text-gray-400 text-xs">Create your first club</p>
-              </div>
-            </Link>
-          </div>
-        )}
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col bg-dark-950">
-        {/* Top Header Bar */}
-        <header className="bg-dark-900 border-b border-gray-700">
-          <div className="px-6 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <h1 className="text-xl font-bold text-white">{pageTitle}</h1>
+      <div className="flex-1 flex flex-col">
+        {/* Main Header - Matching pump.fun style */}
+        <header className="bg-[#15161a] backdrop-blur-md border-b border-[#24252a] px-6 py-4">
+          <div className="flex items-center justify-between">
+            {/* Left side - Search */}
+            <div className="flex items-center">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <input
+                  type="text"
+                  placeholder="Search for club"
+                  className="w-80 pl-10 pr-4 py-2 bg-[#202128] border border-[#24252a] rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
               </div>
-              <div className="flex items-center space-x-4">
-                <button className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium rounded-lg transition-colors">
-                  Get Started
-                </button>
-                <button className="p-2 text-gray-400 hover:text-white">
-                  <Search className="h-5 w-5" />
-                </button>
-                <NotificationCenter />
-                <span className="text-gray-300 text-sm">Jan 20, 2025 - Feb 09, 2025</span>
-                <Link
-                  href="/profile"
-                  className="w-8 h-8 bg-gradient-to-br from-orange-400 to-pink-500 rounded-full flex items-center justify-center hover:scale-105 transition-transform"
-                >
-                  <span className="text-white text-sm font-bold">B</span>
-                </Link>
-              </div>
+            </div>
+
+            {/* Right side - Action Buttons */}
+            <div className="flex items-center space-x-3">
+              <button className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors font-medium">
+                Create club
+              </button>
+              <button className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors font-medium">
+                Log in
+              </button>
             </div>
           </div>
-          {/* Additional Header Content */}
-          {additionalHeaderContent && (
-            <div className="border-t border-gray-700">
-              {additionalHeaderContent}
-            </div>
-          )}
         </header>
 
         {/* Main Content */}
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-auto bg-[#15161a] backdrop-blur-sm">
           {children}
         </div>
       </div>
