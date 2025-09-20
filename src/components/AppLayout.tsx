@@ -23,11 +23,13 @@ import {
   Sparkles,
   Shield
 } from 'lucide-react'
+import { ClubSidebar } from './ClubSidebar'
 
 interface AppLayoutProps {
   children: ReactNode
   pageTitle?: string
   additionalHeaderContent?: ReactNode
+  currentClubId?: string
 }
 
 const navigationItems = [
@@ -39,7 +41,7 @@ const navigationItems = [
   { id: 'admin', icon: Settings, href: '/admin', label: 'Admin' },
 ]
 
-export function AppLayout({ children, pageTitle = "builda.club", additionalHeaderContent }: AppLayoutProps) {
+export function AppLayout({ children, pageTitle = "builda.club", additionalHeaderContent, currentClubId }: AppLayoutProps) {
   const pathname = usePathname()
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [showHamburger, setShowHamburger] = useState(false)
@@ -210,6 +212,9 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
           {children}
         </div>
       </div>
+
+      {/* Club Navigation Sidebar - Far Right */}
+      <ClubSidebar currentClubId={currentClubId} />
     </div>
   )
 }

@@ -79,7 +79,7 @@ export function DiscordLayout({
   }
 
   return (
-    <AppLayout pageTitle={pageTitle}>
+    <AppLayout pageTitle={pageTitle} currentClubId={currentClub?.id}>
       <div className="h-full bg-[#15161a] flex">
         {/* Discord Channels Sidebar */}
         <div className="w-64 bg-[#202128] border-r border-[#24252a] flex flex-col">
