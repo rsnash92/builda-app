@@ -109,6 +109,9 @@ export function ChatInterface({ clubId, clubName, initialChannelId }: ChatInterf
     return prevMessage.user_id !== message.user_id || timeDiff > 5 * 60 * 1000
   }
 
+  // For demo purposes, show chat interface even without auth (using mock data)
+  // In production, you would uncomment the auth check below:
+  /*
   if (!authenticated) {
     return (
       <div className="h-full flex items-center justify-center text-gray-400">
@@ -116,6 +119,7 @@ export function ChatInterface({ clubId, clubName, initialChannelId }: ChatInterf
       </div>
     )
   }
+  */
 
   return (
     <div className="h-full flex bg-[#36393f]">

@@ -46,6 +46,8 @@ export function useMockChat(clubId: string, initialChannelId?: string) {
   const loadMessages = useCallback(async (channelId: string, offset: number = 0, append: boolean = false) => {
     if (!channelId) return
 
+    // For mock data, always load messages regardless of auth status
+
     try {
       if (!append) {
         setState(prev => ({ ...prev, isLoading: true, error: undefined }))
@@ -77,13 +79,16 @@ export function useMockChat(clubId: string, initialChannelId?: string) {
 
   // Send a message
   const sendMessage = useCallback(async (content: string, replyToId?: string) => {
-    if (!state.activeChannelId || !user?.id || !content.trim()) return
+    if (!state.activeChannelId || !content.trim()) return
+
+    // Use authenticated user ID or default to first mock user for demo
+    const userId = user?.id || '550e8400-e29b-41d4-a716-446655440001'
 
     try {
       const newMessage = await MockChatService.sendMessage(
         content.trim(),
         state.activeChannelId,
-        user.id
+        userId
       )
 
       setState(prev => ({
