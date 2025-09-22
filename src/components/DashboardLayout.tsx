@@ -20,7 +20,11 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children, leftSidebar, rightContent, user }: DashboardLayoutProps) {
   return (
-    <AppLayout pageTitle="Dashboard">
+    <AppLayout
+      pageTitle="Dashboard"
+      isLoggedIn={true}
+      user={{ username: 'rsnash92', avatar: undefined }}
+    >
       <div className="h-full bg-[#15161a]">
         {/* Profile Header Section */}
         <ProfileSection user={user} />

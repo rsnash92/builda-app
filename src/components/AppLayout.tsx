@@ -24,12 +24,22 @@ import {
   Shield
 } from 'lucide-react'
 import { ClubSidebar } from './ClubSidebar'
+import { BreadcrumbNav } from './BreadcrumbNav'
 
 interface AppLayoutProps {
   children: ReactNode
   pageTitle?: string
   additionalHeaderContent?: ReactNode
   currentClubId?: string
+  user?: {
+    username?: string
+    avatar?: string
+  }
+  currentClub?: {
+    name?: string
+    id?: string
+  }
+  isLoggedIn?: boolean
 }
 
 const navigationItems = [
@@ -41,7 +51,7 @@ const navigationItems = [
   { id: 'admin', icon: Settings, href: '/admin', label: 'Admin' },
 ]
 
-export function AppLayout({ children, pageTitle = "builda.club", additionalHeaderContent, currentClubId }: AppLayoutProps) {
+export function AppLayout({ children, pageTitle = "builda.club", additionalHeaderContent, currentClubId, user, currentClub, isLoggedIn = false }: AppLayoutProps) {
   const pathname = usePathname()
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [showHamburger, setShowHamburger] = useState(false)
@@ -177,16 +187,25 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
         {/* Main Header - Matching pump.fun style */}
         <header className="bg-[#15161a] backdrop-blur-md border-b border-[#24252a] px-6 py-4">
           <div className="flex items-center justify-between">
-            {/* Left side - Search */}
+            {/* Left side - Breadcrumbs or Search */}
             <div className="flex items-center">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <input
-                  type="text"
-                  placeholder="Search for club"
-                  className="w-80 pl-10 pr-4 py-2 bg-[#202128] border border-[#24252a] rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              {isLoggedIn ? (
+                <BreadcrumbNav
+                  username={user?.username}
+                  clubName={currentClub?.name}
+                  clubId={currentClub?.id}
+                  userAvatar={user?.avatar}
                 />
-              </div>
+              ) : (
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <input
+                    type="text"
+                    placeholder="Search for club"
+                    className="w-80 pl-10 pr-4 py-2 bg-[#202128] border border-[#24252a] rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
+                </div>
+              )}
             </div>
 
             {/* Right side - Action Buttons */}
