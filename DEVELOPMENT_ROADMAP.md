@@ -1,8 +1,8 @@
 # builda.club Development Roadmap
 
-> **Last Updated**: September 19, 2025
-> **Status**: Phase 2A Ready - Backend Foundation
-> **Prerequisites**: ✅ Supabase Account Created, ✅ Privy Account Created, ✅ Database Tables Created
+> **Last Updated**: September 22, 2025
+> **Status**: Smart Contract MVP Ready - Focused Launch Strategy
+> **Prerequisites**: ✅ Supabase Account Created, ✅ Privy Account Created, ✅ Database Tables Created, ✅ thirdweb Account Required
 
 ## 📊 Current State Analysis
 
@@ -42,136 +42,130 @@
 - ❌ Actual governance voting mechanics
 - ❌ Real-time chat functionality
 
-## 🎯 Development Phases
+## 🎯 Focused MVP Strategy
 
-### **Phase 2A: Backend Foundation** (Weeks 1-2)
-**Goal**: Make the platform functional with real data
+> **Philosophy**: Launch with core Web3 treasury functionality + Discord UX
+> **Timeline**: 3 weeks to paying customers
+> **Revenue Model**: 3% fee on contributions (no creation fees)
+> **Differentiator**: True on-chain ownership from day 1
 
-#### Week 1: Database & Auth Integration
-1. **Authentication Flow**
+## 🚀 **3-Week Smart Contract MVP**
+
+### **Week 1: Smart Contract Foundation**
+**Goal**: Deploy treasury contracts and connect Privy authentication
+
+#### Day 1-2: Contract Deployment
+1. **thirdweb Smart Contract Setup**
+   - Deploy club treasury contract (Solana SPL)
+   - Deploy club membership token contract (non-transferable)
+   - Set up contract admin permissions and roles
+   - Configure contribution → token minting logic
+
+2. **Privy Web3 Integration**
    - Connect Privy authentication to Supabase user creation
-   - Implement automatic profile creation on first login
-   - Set up protected routes and auth state management
-   - Test login flow with both Web2 and Web3 methods
+   - Implement embedded wallet creation for email users
+   - Set up wallet connection for existing crypto users
+   - Test transaction signing flows
 
-2. **Database Service Layer**
-   - Create service classes for clubs, members, treasuries
-   - Implement CRUD operations with proper error handling
-   - Set up real-time subscriptions for live updates
-   - Add data validation and type safety
+#### Day 3-5: Core Treasury Functions
+3. **Club Creation with Smart Contracts**
+   - Deploy individual treasury contract per club
+   - Set up club creation with on-chain initialization
+   - Implement buy-in price setting and governance
+   - Connect existing UI to smart contract calls
 
-#### Week 2: Core Platform Services
-3. **Club Management System**
-   - Real club creation with database persistence
-   - Member joining/leaving with role management
-   - Treasury balance tracking and updates
-   - Club discovery and browsing functionality
+4. **Member Contribution System**
+   - Build contribution flow (USDC → treasury)
+   - Automatic membership token minting
+   - Real-time ownership percentage calculation
+   - Transaction confirmation and error handling
 
-4. **User Profile System**
-   - Complete user profile management
-   - $BUIDL balance tracking (placeholder for now)
-   - Activity logging and history
-   - Building streak calculation
+#### Day 6-7: Database Integration
+5. **Hybrid On-chain/Off-chain Architecture**
+   - Store club metadata and chat data in Supabase
+   - Index on-chain events for fast UI updates
+   - Implement wallet address → user profile mapping
+   - Set up real-time treasury balance tracking
 
-### **Phase 2B: Payment & Treasury** (Weeks 3-4)
-**Goal**: Enable real money flow
+### **Week 2: Discord-Style Experience**
+**Goal**: Build engaging community features with on-chain ownership
 
-#### Week 3: Payment Processing
-5. **Stripe Integration**
-   - Set up Stripe Connect for treasury management
-   - Payment processing for club membership fees
-   - Subscription management for recurring models
-   - Webhook handling for payment events
+#### Day 8-10: Real-time Chat System
+6. **Supabase Chat Implementation**
+   - Create channel-based messaging system
+   - Implement real-time message updates
+   - Add member permissions based on token ownership
+   - Build message history and pagination
 
-6. **Treasury Management**
-   - Real-time treasury balance updates
-   - Transaction history and audit trail
-   - Member contribution tracking
-   - Withdrawal and spending controls
+7. **Club Navigation & Channels**
+   - Discord-style channel sidebar
+   - Text channels, announcements, treasury channel
+   - Member list with ownership percentages
+   - Club stats and treasury analytics
 
-#### Week 4: Economic Models
-7. **Member-Governed Pricing**
-   - Implement pricing proposal creation system
-   - Voting mechanisms for price changes
-   - Time-based voting periods and quorum requirements
-   - Pricing safeguards and limits enforcement
+#### Day 11-12: Member Management
+8. **Token-Gated Access Control**
+   - Implement role-based permissions via token holdings
+   - Club admin functions for founding members
+   - Member onboarding flow with wallet setup
+   - Join club flow with contribution requirements
 
-8. **Fixed Token Model Implementation**
-   - 1:1 USDC pricing logic
-   - Fair value calculations (Treasury ÷ Tokens)
-   - Work token minting with daily/monthly caps
-   - Token value display and tracking
+#### Day 13-14: UI Polish & Mobile
+9. **User Experience Optimization**
+   - Mobile-responsive Discord-style interface
+   - Transaction status indicators and confirmations
+   - Error handling for failed blockchain transactions
+   - Loading states and offline handling
 
-### **Phase 2C: Blockchain Integration** (Weeks 5-6)
-**Goal**: Add Web3 functionality
+### **Week 3: Economic Engine & Launch Prep**
+**Goal**: Complete the member-governed economic model
 
-#### Week 5: Smart Contract Deployment
-9. **thirdweb Contract Setup**
-   - Deploy club token contracts (SPL, non-tradeable)
-   - Deploy $BUIDL platform token contract
-   - Set up treasury management smart contracts
-   - Configure contract permissions and roles
+#### Day 15-17: On-Chain Governance
+10. **Member-Governed Pricing**
+    - Smart contract voting for buy-in price changes
+    - Proposal creation and voting UI
+    - Time-locked voting periods with quorum requirements
+    - Price change execution and member notifications
 
-10. **Enhanced Wallet Integration**
-    - Connect wallet functionality to real contracts
-    - Implement embedded wallet creation for email users
-    - Transaction signing and confirmation flows
-    - Error handling for failed transactions
+11. **Treasury Analytics**
+    - Real-time treasury value tracking from blockchain
+    - Member contribution history and ROI calculations
+    - Club growth metrics and member acquisition
+    - Individual member dashboard with portfolio view
 
-#### Week 6: Token Mechanics
-11. **Club Token Implementation**
-    - Automatic minting on treasury contribution
-    - Non-transferable token enforcement
-    - Real-time token value calculation display
-    - Member ownership percentage tracking
+#### Day 18-19: Advanced Treasury Features
+12. **Treasury Management**
+    - Multi-sig treasury spending (for club expenses)
+    - Member withdrawal mechanisms (if governance allows)
+    - Treasury diversification tracking
+    - Audit trail for all treasury operations
 
-12. **$BUIDL Rewards System**
-    - Daily reward claiming mechanism
-    - Contribution-based earning calculations
-    - Staking system for 2x multipliers
-    - Building streak bonus tracking
-
-### **Phase 3: Advanced Features** (Weeks 7-12)
-**Goal**: Complete platform with all whitepaper features
-
-#### Weeks 7-8: Governance & Advanced Treasury
-13. **Real Governance System**
-    - Proposal creation with different types
-    - On-chain voting with token weighting
-    - Treasury spending approvals
-    - Member role and permission management
-
-14. **Club Vaults Implementation**
-    - Shared resource management system
-    - IP creation tracking and attribution
-    - Digital asset storage (NFTs, domains)
-    - Resource access control
-
-#### Weeks 9-10: Social & Community Features
-15. **Real-time Chat System**
-    - Supabase real-time messaging
-    - Channel creation and management
-    - File sharing and rich embeds
-    - Message history and search
-
-16. **Enhanced Member Experience**
-    - Real activity tracking and analytics
-    - Achievement system with NFT badges
-    - Building streak mechanics with rewards
-    - Member leaderboards and recognition
-
-#### Weeks 11-12: Launch Preparation
-17. **Platform Optimization**
-    - Performance improvements and caching
-    - Mobile responsiveness optimization
-    - Comprehensive error handling
-    - Security audit and testing
-
-18. **Beta Launch Preparation**
+#### Day 20-21: Launch Preparation
+13. **Beta Testing & Polish**
+    - End-to-end user testing with real transactions
     - Onboarding flow optimization
-    - Help documentation and tutorials
-    - Beta tester recruitment and management
-    - Launch marketing materials
+    - Help documentation and FAQ
+    - Beta user recruitment and feedback collection
+
+## 🎯 **Post-MVP Expansion (Weeks 4-12)**
+
+### **Weeks 4-6: Advanced Features**
+- **$BUIDL Platform Token**: Cross-club rewards system
+- **Staking Mechanisms**: 2x multipliers for committed members
+- **Club Vaults**: Shared resource and IP management
+- **Enhanced Governance**: Complex proposal types and treasury controls
+
+### **Weeks 7-9: Scale & Growth**
+- **Mobile App**: Native iOS/Android applications
+- **Integration APIs**: Discord bot, Slack integration
+- **Analytics Dashboard**: Club performance metrics
+- **Marketplace**: Club discovery and trending
+
+### **Weeks 10-12: Enterprise & Launch**
+- **White-label Solutions**: For organizations and DAOs
+- **Advanced Treasury**: DeFi yield strategies
+- **Public Launch**: Marketing campaign and user acquisition
+- **Ecosystem Partnerships**: Integration with other Web3 tools
 
 ## 🔧 Technical Implementation Details
 
@@ -195,115 +189,214 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
-# Stripe (To Be Added in Week 3)
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
-
-# thirdweb (To Be Added in Week 5)
+# thirdweb (Required for Week 1)
 NEXT_PUBLIC_THIRDWEB_CLIENT_ID=your_client_id
 THIRDWEB_SECRET_KEY=your_secret_key
+NEXT_PUBLIC_THIRDWEB_ACTIVE_CHAIN=solana
+
+# Solana Network
+NEXT_PUBLIC_SOLANA_NETWORK=devnet # or mainnet-beta
+NEXT_PUBLIC_USDC_MINT_ADDRESS=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
 ```
 
 ### Key Services to Implement
 
-#### 1. Authentication Service (`/lib/services/auth-service.ts`)
+#### 1. Smart Contract Service (`/lib/services/contract-service.ts`)
+```typescript
+class ContractService {
+  static async deployClubContracts(clubData: CreateClubData): Promise<ClubContracts>
+  static async contributeToTreasury(clubId: string, amount: number): Promise<TransactionResult>
+  static async collectPlatformFee(amount: number): Promise<number> // Returns net amount after 3% fee
+  static async mintMembershipTokens(clubId: string, member: string, netAmount: number): Promise<void>
+  static async getTreasuryBalance(clubId: string): Promise<number>
+  static async getPlatformRevenue(): Promise<number>
+  static async createGovernanceProposal(clubId: string, proposal: ProposalData): Promise<string>
+  static async voteOnProposal(proposalId: string, vote: boolean): Promise<void>
+}
+```
+
+#### 2. Authentication Service (`/lib/services/auth-service.ts`)
 ```typescript
 class AuthService {
   static async syncPrivyUser(privyUser: PrivyUser): Promise<UserProfile>
-  static async createUserProfile(userData: CreateUserData): Promise<UserProfile>
+  static async createEmbeddedWallet(userId: string): Promise<WalletAddress>
+  static async connectExternalWallet(userId: string, walletAddress: string): Promise<void>
   static async updateUserProfile(updates: UserUpdates): Promise<UserProfile>
 }
 ```
 
-#### 2. Club Service (`/lib/services/club-service.ts`)
+#### 3. Club Service (`/lib/services/club-service.ts`)
 ```typescript
 class ClubService {
-  static async createClub(clubData: CreateClubData): Promise<Club>
-  static async joinClub(clubId: string, userId: string, contribution: number): Promise<void>
+  static async createClub(clubData: CreateClubData): Promise<Club> // Free club creation
+  static async joinClub(clubId: string, userId: string, contribution: number): Promise<MembershipResult>
   static async getClubsByUser(userId: string): Promise<Club[]>
-  static async updateTreasury(clubId: string, amount: number): Promise<void>
+  static async updateClubMetadata(clubId: string, updates: ClubUpdates): Promise<void>
+  static async getClubMembers(clubId: string): Promise<ClubMember[]>
+  static async calculateMemberOwnership(clubId: string, memberId: string): Promise<number>
 }
 ```
 
-#### 3. Payment Service (`/lib/services/payment-service.ts`)
+#### 4. Chat Service (`/lib/services/chat-service.ts`)
 ```typescript
-class PaymentService {
-  static async processContribution(amount: number, clubId: string): Promise<PaymentResult>
-  static async setupSubscription(userId: string, clubId: string): Promise<Subscription>
-  static async handleWebhook(event: StripeEvent): Promise<void>
+class ChatService {
+  static async sendMessage(channelId: string, userId: string, content: string): Promise<Message>
+  static async getChannelMessages(channelId: string, limit: number, offset?: string): Promise<Message[]>
+  static async createChannel(clubId: string, channelData: ChannelData): Promise<Channel>
+  static async subscribeToChannel(channelId: string, callback: (message: Message) => void): Promise<void>
 }
 ```
 
 ## 📈 Success Metrics & Milestones
 
-### Week 2 Milestone: Functional Platform
-- ✅ Real user registration and authentication
-- ✅ Club creation with persistent data
-- ✅ Member joining with profile creation
-- **Target**: 5 test clubs created
+### **Week 1 Milestone: Smart Contract Foundation**
+- ✅ Club treasury contracts deployed on Solana devnet
+- ✅ Privy authentication with embedded wallet creation
+- ✅ First on-chain club creation and contribution
+- **Target**: 3 test clubs with on-chain treasuries
 
-### Week 4 Milestone: Payment Processing
-- ✅ Stripe integration functional
-- ✅ Real money flowing to club treasuries
-- ✅ Member-governed pricing working
-- **Target**: First real club with $1000+ treasury
+### **Week 2 Milestone: Discord-Style MVP**
+- ✅ Real-time chat system functional
+- ✅ Token-gated club access working
+- ✅ Member management with ownership tracking
+- **Target**: 10 active clubs with daily messages
 
-### Week 6 Milestone: Web3 Integration
-- ✅ Smart contracts deployed on Solana
-- ✅ Club tokens minting on contribution
-- ✅ $BUIDL rewards being earned
-- **Target**: 10 clubs with on-chain tokens
+### **Week 3 Milestone: Economic Engine Complete**
+- ✅ On-chain governance voting functional
+- ✅ Member-governed pricing changes working
+- ✅ Treasury analytics and member dashboards
+- **Target**: First governance vote executed, $5k+ TVL
 
-### Week 12 Milestone: Beta Launch
-- ✅ All core features functional
-- ✅ 50+ beta testing clubs
-- ✅ $50k+ total value locked
-- **Target**: Ready for public announcement
+### **Month 2 Milestone: Growth & Scale**
+- ✅ 50+ clubs with active communities
+- ✅ $50k+ total value locked across platform
+- ✅ $1,500+ monthly recurring revenue from platform fees
+- **Target**: 500+ registered users, sustainable growth
 
-## 🚀 Immediate Next Steps
+## 💰 **Revenue Model: Fee-Based Growth**
 
-### This Week (Week 1)
-1. **Set up development environment**
-   - Ensure all API keys are properly configured
-   - Test Privy and Supabase connections
-   - Set up local development workflow
+### **Platform Fee Structure**
+- **Contribution Fee**: 3% on all USDC contributions to club treasuries
+- **Club Creation**: **FREE** (no friction for new clubs)
+- **Chat & Governance**: **FREE** (core platform features)
+- **Revenue Split**: User contributes $100 → $3 to builda.club, $97 to club treasury
 
-2. **Implement authentication flow**
-   - Connect Privy login to Supabase user creation
-   - Create user profile sync on first login
-   - Test with multiple authentication methods
+### **Revenue Projections**
 
-3. **Build club service layer**
-   - Implement real club creation functionality
-   - Connect existing UI to real database operations
-   - Test club browsing and joining flows
+#### **Month 3 Targets:**
+- **100 active clubs** with avg $500 monthly contributions = $50k volume
+- **Platform fees**: $50k × 3% = **$1,500 MRR**
+- **New club creation**: 50 clubs/month (free, driving growth)
 
-### Next Week (Week 2)
-1. **Complete member management**
-   - Implement join/leave club functionality
-   - Add role-based permissions
-   - Create member dashboard with real data
+#### **Month 6 Targets:**
+- **300 active clubs** with avg $750 monthly contributions = $225k volume
+- **Platform fees**: $225k × 3% = **$6,750 MRR**
+- **Total treasury value**: $1.5M+ across platform
 
-2. **Add treasury tracking**
-   - Implement balance updates
-   - Create transaction history
-   - Add basic treasury analytics
+#### **Year 1 Targets:**
+- **1,000 active clubs** with sustained contribution activity
+- **$500k+ monthly volume** = **$15k+ MRR** from platform fees
+- **$10M+ total value locked** across all club treasuries
+
+### **Why This Model Works:**
+- **Aligned incentives**: We only make money when clubs are successful
+- **No creation friction**: Anyone can start a club for free
+- **Transparent & fair**: 3% is reasonable for treasury security + governance tools
+- **Scalable**: Revenue grows directly with platform adoption
+
+## 🚀 Immediate Next Steps (Smart Contract MVP)
+
+### **This Week (Days 1-7): Smart Contract Foundation**
+
+#### **Day 1-2: Environment Setup**
+1. **thirdweb Account & Configuration**
+   - Create thirdweb account and get API keys
+   - Set up Solana devnet environment
+   - Configure USDC token integration
+   - Test wallet connection and transactions
+
+2. **Smart Contract Deployment**
+   - Deploy club treasury contract template (with built-in platform fee)
+   - Deploy membership token contract (non-transferable SPL)
+   - Set up governance voting mechanisms
+   - Test contract interactions and fee collection on devnet
+
+#### **Day 3-5: Core Integration**
+3. **Privy Web3 Integration**
+   - Enable Solana wallet support in Privy config
+   - Implement embedded wallet creation flow
+   - Connect existing wallet authentication
+   - Test transaction signing with different wallet types
+
+4. **Treasury Contribution Flow with Revenue Model**
+   - Build USDC → club treasury transfer function (with 3% platform fee)
+   - Implement automatic membership token minting for net contribution
+   - Add transaction confirmation handling
+   - Create ownership percentage calculation
+   - Platform fee collection and revenue tracking
+
+#### **Day 6-7: Database Sync**
+5. **Hybrid Architecture Setup**
+   - Index on-chain events to Supabase
+   - Create wallet address → user profile mapping
+   - Set up real-time treasury balance updates
+   - Implement club metadata storage (off-chain)
+
+### **Next Week (Days 8-14): Discord Experience**
+1. **Real-time Chat Implementation**
+   - Supabase real-time messaging system
+   - Token-gated channel access
+   - Message history and pagination
+
+2. **Member Management UI**
+   - Ownership-based permissions
+   - Club admin functions
+   - Member onboarding with contributions
 
 ## 🔗 Resources & Documentation
 
 ### External Services
-- **Privy**: [Dashboard](https://dashboard.privy.io/) | [Docs](https://docs.privy.io/)
-- **Supabase**: [Dashboard](https://supabase.com/dashboard) | [Docs](https://supabase.com/docs)
-- **Stripe**: [Dashboard](https://dashboard.stripe.com/) | [Docs](https://stripe.com/docs)
-- **thirdweb**: [Dashboard](https://thirdweb.com/dashboard) | [Docs](https://portal.thirdweb.com/)
+- **Privy**: [Dashboard](https://dashboard.privy.io/) | [Docs](https://docs.privy.io/) | [Solana Guide](https://docs.privy.io/guide/frontend/wallets/solana)
+- **Supabase**: [Dashboard](https://supabase.com/dashboard) | [Docs](https://supabase.com/docs) | [Real-time](https://supabase.com/docs/guides/realtime)
+- **thirdweb**: [Dashboard](https://thirdweb.com/dashboard) | [Docs](https://portal.thirdweb.com/) | [Solana SDK](https://portal.thirdweb.com/solana)
+- **Solana**: [Explorer](https://explorer.solana.com/) | [Docs](https://docs.solana.com/) | [USDC Token](https://developers.circle.com/stablecoins/docs/usdc-on-solana)
+
+### Key Resources
+- **Smart Contract Templates**: thirdweb treasury and token contracts
+- **Wallet Integration**: Privy embedded wallets + external wallet support
+- **Real-time Features**: Supabase real-time subscriptions for chat
+- **Transaction Handling**: thirdweb SDK for Solana interactions
 
 ### Project Documentation
 - **Whitepaper**: `../builda-club/docs/whitepaper-v5.0.md`
-- **Architecture**: Database schema in Supabase dashboard
-- **API Reference**: To be created as services are built
+- **Database Schema**: Supabase dashboard (hybrid on-chain/off-chain)
+- **Smart Contract Addresses**: To be documented after deployment
+- **API Reference**: Generated from TypeScript service implementations
 
 ---
 
-**Next Review**: End of Week 2 (October 3, 2025)
-**Contact**: Continue development conversations with Claude Code for implementation guidance
+## 🎯 **Why This Smart Contract MVP Approach Wins**
+
+### **Competitive Advantage**
+- **True decentralization** from day 1 (not just marketing)
+- **Immutable treasury security** (members can't be rugged)
+- **Transparent ownership** (verifiable on-chain)
+- **Future-proof architecture** (easy to add DeFi, governance, etc.)
+
+### **Technical Benefits**
+- **Simpler than traditional payments** (no webhook complexity)
+- **Automatic compliance** (smart contracts enforce rules)
+- **Global accessibility** (crypto removes geographic barriers)
+- **Composable** (other protocols can integrate)
+
+### **Market Timing**
+- **Solana ecosystem growth** (cheap transactions, growing adoption)
+- **Web3 social momentum** (Friend.tech, Farcaster success)
+- **Creator economy evolution** (ownership over attention)
+- **Community governance trends** (DAOs mainstream acceptance)
+
+---
+
+**Next Review**: End of Week 1 (September 29, 2025)
+**Focus**: Smart contract deployment and Privy integration success
+**Contact**: Continue development with Claude Code for Web3 implementation guidance

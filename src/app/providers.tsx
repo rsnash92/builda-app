@@ -22,11 +22,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
       config={{
         loginMethods: ['email', 'wallet', 'google', 'discord'],
         appearance: {
-          theme: 'light',
-          accentColor: '#676FFF',
+          theme: 'dark',
+          accentColor: '#f97316', // Orange theme
         },
         embeddedWallets: {
-          createOnLogin: 'users-without-wallets'
+          createOnLogin: 'users-without-wallets',
+          requireUserPasswordOnCreate: false
         }
       }}
     >
