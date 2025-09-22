@@ -207,17 +207,14 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
           )}
         </header>
 
-        {/* Main Content with Club Sidebar */}
-        <div className="flex-1 overflow-auto bg-[#15161a] backdrop-blur-sm">
-          <div className="h-full flex">
-            <div className="flex-1">
-              {children}
-            </div>
-            {/* Club Navigation Sidebar - Inside scrollable area */}
-            <ClubSidebar currentClubId={currentClubId} />
-          </div>
+        {/* Main Content */}
+        <div className="flex-1 overflow-auto bg-[#15161a] backdrop-blur-sm pr-20">
+          {children}
         </div>
       </div>
+
+      {/* Club Navigation Sidebar - Fixed Position */}
+      <ClubSidebar currentClubId={currentClubId} />
     </div>
   )
 }
