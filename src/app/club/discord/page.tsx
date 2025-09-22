@@ -1,8 +1,10 @@
 'use client'
 
-import { DiscordStyleLayout } from '@/components/DiscordStyleLayout'
+import { useState } from 'react'
+import { AppLayout } from '@/components/AppLayout'
 import { DiscordChatArea } from '@/components/chat/DiscordChatArea'
 import { ClubWithMembers } from '@/lib/database/types'
+import { Hash, Volume2, Megaphone, Crown, Users } from 'lucide-react'
 
 // Mock club data
 const mockClub: ClubWithMembers = {
@@ -29,21 +31,69 @@ const mockClub: ClubWithMembers = {
   member_count: 287
 }
 
+// Mock channels data
+const mockChannels = [
+  { id: 'general', name: 'general', type: 'text' as const, icon: Hash, unread: 0 },
+  { id: 'announcements', name: 'announcements', type: 'announcement' as const, icon: Megaphone, unread: 2 },
+  { id: 'treasury', name: 'treasury', type: 'special' as const, icon: Crown, unread: 0 },
+  { id: 'building', name: 'building', type: 'text' as const, icon: Hash, unread: 1 },
+  { id: 'voice-general', name: 'General Voice', type: 'voice' as const, icon: Volume2, unread: 0 }
+]
+
 export default function DiscordClubPage() {
+  const [activeChannel, setActiveChannel] = useState('general')
+
+  // Create the horizontal channel tabs header
+  const channelTabsHeader = (
+    <div className="bg-[#2f3136] border-b border-[#202225] px-4 py-2">
+      <div className="flex items-center space-x-1 overflow-x-auto">
+        {mockChannels.map((channel) => {
+          const Icon = channel.icon
+          const isActive = channel.id === activeChannel
+
+          return (
+            <button
+              key={channel.id}
+              onClick={() => setActiveChannel(channel.id)}
+              className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors whitespace-nowrap ${
+                isActive
+                  ? 'bg-[#5865f2] text-white'
+                  : 'text-gray-300 hover:bg-[#36393f] hover:text-white'
+              }`}
+            >
+              <Icon className="w-4 h-4" />
+              <span className="text-sm font-medium">{channel.name}</span>
+              {channel.unread > 0 && (
+                <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                  <span className="text-xs text-white font-bold">{channel.unread}</span>
+                </div>
+              )}
+              {channel.type === 'voice' && (
+                <Users className="w-4 h-4 text-gray-400" />
+              )}
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
 
   return (
-    <DiscordStyleLayout
-      currentServer={{
-        id: mockClub.id,
-        name: mockClub.name,
-        icon: 'B'
-      }}
+    <AppLayout
+      pageTitle="Discord-Style Club Chat"
+      currentClubId={mockClub.id}
+      isLoggedIn={true}
+      user={{ username: 'alice', avatar: undefined }}
+      currentClub={{ name: mockClub.name, id: mockClub.id }}
+      additionalHeaderContent={channelTabsHeader}
     >
-      <DiscordChatArea
-        clubId={mockClub.id}
-        clubName={mockClub.name}
-        activeChannelId="general"
-      />
-    </DiscordStyleLayout>
+      <div className="h-full bg-[#36393f]">
+        <DiscordChatArea
+          clubId={mockClub.id}
+          clubName={mockClub.name}
+          activeChannelId={activeChannel}
+        />
+      </div>
+    </AppLayout>
   )
 }

@@ -6,7 +6,6 @@ import { useMockChat } from '@/hooks/useMockChat'
 import { Message } from '@/lib/types/chat'
 import { MessageBubble } from './MessageBubble'
 import { MessageInput } from './MessageInput'
-import { Hash, Users, Bell, Pin, Search, Inbox, HelpCircle, AtSign } from 'lucide-react'
 
 interface DiscordChatAreaProps {
   clubId: string
@@ -35,6 +34,33 @@ export function DiscordChatArea({ clubId, clubName, activeChannelId }: DiscordCh
     loadMoreMessages,
     clearError
   } = useMockChat(clubId, activeChannelId)
+
+  // Mock members data
+  const mockMembers = {
+    'Moderators': [
+      { id: '1', name: 'alice', status: 'online', activity: 'Building smart contracts' },
+      { id: '2', name: 'bob', status: 'online', activity: 'Code Review' },
+    ],
+    'Alumni': [
+      { id: '3', name: 'carol', status: 'away', activity: 'Designing UI' },
+      { id: '4', name: 'david', status: 'online', activity: 'DeFi Research' },
+    ],
+    'Members': [
+      { id: '5', name: 'eve', status: 'online', activity: 'Community Management' },
+      { id: '6', name: 'frank', status: 'idle', activity: null },
+      { id: '7', name: 'grace', status: 'online', activity: 'Testing Features' },
+    ]
+  }
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'online': return 'bg-green-500'
+      case 'away': return 'bg-yellow-500'
+      case 'idle': return 'bg-yellow-600'
+      case 'offline': return 'bg-gray-500'
+      default: return 'bg-gray-500'
+    }
+  }
 
   // Auto-scroll to bottom when new messages arrive
   const scrollToBottom = () => {
@@ -109,114 +135,119 @@ export function DiscordChatArea({ clubId, clubName, activeChannelId }: DiscordCh
   }
 
   return (
-    <div className="flex-1 flex flex-col">
-      {/* Channel Header */}
-      <div className="h-12 bg-[#36393f] border-b border-[#202225] flex items-center justify-between px-4 shadow-sm">
-        <div className="flex items-center space-x-2">
-          <Hash className="w-6 h-6 text-gray-400" />
-          <span className="text-white font-semibold">
-            {activeChannel?.name || 'general'}
-          </span>
-          {activeChannel?.description && (
-            <>
-              <div className="w-px h-6 bg-gray-600"></div>
-              <span className="text-gray-400 text-sm">{activeChannel.description}</span>
-            </>
-          )}
-        </div>
+    <div className="flex-1 flex">
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Error Banner */}
+        {error && (
+          <div className="bg-red-600 text-white px-4 py-2 text-sm flex items-center justify-between">
+            <span>{error}</span>
+            <button
+              onClick={clearError}
+              className="text-white hover:text-gray-200"
+            >
+              ×
+            </button>
+          </div>
+        )}
 
-        <div className="flex items-center space-x-4">
-          <Bell className="w-6 h-6 text-gray-400 hover:text-gray-200 cursor-pointer" />
-          <Pin className="w-6 h-6 text-gray-400 hover:text-gray-200 cursor-pointer" />
-          <Users className="w-6 h-6 text-gray-400 hover:text-gray-200 cursor-pointer" />
+        {/* Messages Area */}
+        <div className="flex-1 flex flex-col">
+          <div
+            ref={messagesContainerRef}
+            onScroll={handleScroll}
+            className="flex-1 overflow-y-auto scroll-smooth"
+          >
+            {/* Loading indicator for pagination */}
+            {isLoading && hasMore && (
+              <div className="text-center py-4">
+                <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-[#5865f2]"></div>
+              </div>
+            )}
 
-          {/* Search */}
-          <div className="relative">
-            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search"
-              className="w-36 h-6 bg-[#202225] border-none rounded text-sm text-gray-300 pl-8 pr-2 focus:outline-none focus:w-60 transition-all"
-            />
+            {/* Welcome message */}
+            {messages.length === 0 && !isLoading && (
+              <div className="p-4 pt-8">
+                <div className="flex items-start">
+                  <div className="w-16 h-16 bg-[#5865f2] rounded-full flex items-center justify-center mr-4 mt-1">
+                    <span className="text-white text-2xl font-bold">#</span>
+                  </div>
+                  <div>
+                    <h3 className="text-white font-bold text-2xl mb-2">
+                      Welcome to #{activeChannel?.name || 'general'}!
+                    </h3>
+                    <p className="text-gray-400 text-sm">
+                      {activeChannel?.description || 'This is the beginning of the conversation in this channel.'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Messages */}
+            <div className="pb-4">
+              {messages.map((message, index) => (
+                <MessageBubble
+                  key={message.id}
+                  message={message}
+                  isOwn={message.user_id === user?.id}
+                  showAvatar={shouldShowAvatar(message, index)}
+                  onEdit={handleEditMessage}
+                  onDelete={handleDeleteMessage}
+                  onReply={handleReply}
+                />
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
           </div>
 
-          <Inbox className="w-6 h-6 text-gray-400 hover:text-gray-200 cursor-pointer" />
-          <HelpCircle className="w-6 h-6 text-gray-400 hover:text-gray-200 cursor-pointer" />
+          {/* Message Input */}
+          <div className="p-4">
+            <MessageInput
+              onSendMessage={handleSendMessage}
+              placeholder={`Message #${activeChannel?.name || 'channel'}`}
+              disabled={!currentChannelId || isLoading}
+              replyTo={replyTo}
+              onClearReply={() => setReplyTo(undefined)}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Error Banner */}
-      {error && (
-        <div className="bg-red-600 text-white px-4 py-2 text-sm flex items-center justify-between">
-          <span>{error}</span>
-          <button
-            onClick={clearError}
-            className="text-white hover:text-gray-200"
-          >
-            ×
-          </button>
-        </div>
-      )}
+      {/* Members Sidebar */}
+      <div className="w-60 bg-[#2f3136] border-l border-[#202225] overflow-y-auto">
+        <div className="p-4">
+          {Object.entries(mockMembers).map(([role, members]) => (
+            <div key={role} className="mb-6">
+              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
+                {role} — {members.filter(m => m.status !== 'offline').length}
+              </div>
 
-      {/* Messages Area */}
-      <div className="flex-1 flex flex-col">
-        <div
-          ref={messagesContainerRef}
-          onScroll={handleScroll}
-          className="flex-1 overflow-y-auto scroll-smooth"
-        >
-          {/* Loading indicator for pagination */}
-          {isLoading && hasMore && (
-            <div className="text-center py-4">
-              <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-[#5865f2]"></div>
-            </div>
-          )}
+              <div className="space-y-1">
+                {members.filter(m => m.status !== 'offline').map((member) => (
+                  <div key={member.id} className="flex items-center px-2 py-1 rounded hover:bg-[#34373c] cursor-pointer group">
+                    <div className="relative mr-3">
+                      <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold text-xs">{member.name[0].toUpperCase()}</span>
+                      </div>
+                      <div className={`absolute -bottom-1 -right-1 w-3 h-3 ${getStatusColor(member.status)} rounded-full border-2 border-[#2f3136]`}></div>
+                    </div>
 
-          {/* Welcome message */}
-          {messages.length === 0 && !isLoading && (
-            <div className="p-4 pt-8">
-              <div className="flex items-start">
-                <div className="w-16 h-16 bg-[#5865f2] rounded-full flex items-center justify-center mr-4 mt-1">
-                  <Hash className="w-8 h-8 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-white font-bold text-2xl mb-2">
-                    Welcome to #{activeChannel?.name || 'general'}!
-                  </h3>
-                  <p className="text-gray-400 text-sm">
-                    {activeChannel?.description || 'This is the beginning of the conversation in this channel.'}
-                  </p>
-                </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-gray-300 truncate">
+                        {member.name}
+                      </div>
+                      {member.activity && (
+                        <div className="text-xs text-gray-400 truncate">
+                          {member.activity}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          )}
-
-          {/* Messages */}
-          <div className="pb-4">
-            {messages.map((message, index) => (
-              <MessageBubble
-                key={message.id}
-                message={message}
-                isOwn={message.user_id === user?.id}
-                showAvatar={shouldShowAvatar(message, index)}
-                onEdit={handleEditMessage}
-                onDelete={handleDeleteMessage}
-                onReply={handleReply}
-              />
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
-        </div>
-
-        {/* Message Input */}
-        <div className="p-4">
-          <MessageInput
-            onSendMessage={handleSendMessage}
-            placeholder={`Message #${activeChannel?.name || 'channel'}`}
-            disabled={!currentChannelId || isLoading}
-            replyTo={replyTo}
-            onClearReply={() => setReplyTo(undefined)}
-          />
+          ))}
         </div>
       </div>
     </div>
