@@ -59,7 +59,7 @@ export function ClubSidebar({ currentClubId }: ClubSidebarProps) {
   ])
 
   return (
-    <div className="w-20 bg-[#15161a] border-l border-[#24252a] flex flex-col items-center py-4 space-y-3">
+    <div className="w-20 bg-[#15161a] border-l border-[#24252a] flex flex-col items-center py-4 space-y-3 flex-shrink-0">
       {/* Home Button */}
       <Link
         href="/dashboard"
