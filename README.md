@@ -82,6 +82,13 @@ src/
 └── globals.css           # Global styles
 ```
 
+## Latest Updates (September 2025)
+
+✅ **Discord-Style Chat System** - Complete real-time messaging with channels, threading, and replies
+✅ **Privy Authentication** - Seamless Web2/Web3 login integration
+✅ **Mock Data Infrastructure** - Comprehensive test data for development
+✅ **Token-Gated Access** - Channel permissions based on club membership
+
 ## Features
 
 ### 🏠 **Main Dashboard**
