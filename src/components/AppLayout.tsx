@@ -182,7 +182,7 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
         </div>
       </div>
 
-      {/* Main Content Area */}
+      {/* Main Content Area - Between Sidebars */}
       <div className="flex-1 flex flex-col">
         {/* Main Header - Matching pump.fun style */}
         <header className="bg-[#15161a] backdrop-blur-md border-b border-[#24252a] px-6 py-4">
@@ -227,12 +227,12 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
         </header>
 
         {/* Main Content */}
-        <div className="flex-1 overflow-auto bg-[#15161a] backdrop-blur-sm pr-20">
+        <div className="flex-1 overflow-auto bg-[#15161a] backdrop-blur-sm">
           {children}
         </div>
       </div>
 
-      {/* Club Navigation Sidebar - Fixed Position */}
+      {/* Club Navigation Sidebar - Full Height */}
       <ClubSidebar currentClubId={currentClubId} />
     </div>
   )
