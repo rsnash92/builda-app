@@ -62,9 +62,10 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
   }
 
   return (
-    <div className="h-screen pump-gradient flex">
-      {/* Collapsible Sidebar - Full Height */}
-      <div className={`${sidebarCollapsed ? 'w-16' : 'w-64'} bg-[#15161a] backdrop-blur-md border-r border-[#24252a] flex flex-col transition-all duration-300 ease-in-out`}>
+    <div className="h-screen pump-gradient">
+      <div className="h-full flex overflow-hidden">
+        {/* Collapsible Sidebar - Full Height */}
+        <div className={`${sidebarCollapsed ? 'w-16' : 'w-64'} bg-[#15161a] backdrop-blur-md border-r border-[#24252a] flex flex-col transition-all duration-300 ease-in-out flex-shrink-0`}>
         {/* Sidebar Header with Logo and Collapse Button */}
         <header className={`bg-[#15161a] backdrop-blur-md border-b border-[#24252a] ${sidebarCollapsed ? 'pt-[1.57rem] pb-[1.57rem] px-0' : 'pt-[1.4rem] pb-[1.4rem] px-6'}`}>
           <div className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'justify-between'}`}>
@@ -179,11 +180,11 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
               </Link>
             </div>
           )}
+          </div>
         </div>
-      </div>
 
-      {/* Main Content Area with Club Sidebar */}
-      <div className="flex-1 flex flex-col">
+        {/* Main Content Area - Middle */}
+        <div className="flex-1 flex flex-col overflow-hidden">
         {/* Main Header - Matching pump.fun style */}
         <header className="bg-[#15161a] backdrop-blur-md border-b border-[#24252a] px-6 py-4">
           <div className="flex items-center justify-between">
@@ -226,15 +227,15 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
           )}
         </header>
 
-        {/* Main Content with Club Sidebar */}
-        <div className="flex-1 overflow-auto bg-[#15161a] backdrop-blur-sm">
-          <div className="h-full flex">
-            <div className="flex-1">
-              {children}
-            </div>
-            {/* Club Navigation Sidebar */}
-            <ClubSidebar currentClubId={currentClubId} />
+          {/* Main Content */}
+          <div className="flex-1 overflow-auto bg-[#15161a] backdrop-blur-sm">
+            {children}
           </div>
+        </div>
+
+        {/* Club Navigation Sidebar - Full Height */}
+        <div className="w-20 flex flex-col flex-shrink-0">
+          <ClubSidebar currentClubId={currentClubId} />
         </div>
       </div>
     </div>
