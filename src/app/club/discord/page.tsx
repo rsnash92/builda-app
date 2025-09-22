@@ -111,15 +111,15 @@ export default function DiscordClubPage() {
   const [activeChannel, setActiveChannel] = useState('general')
 
   return (
-    <div className="h-screen bg-[#36393f] flex">
-      {/* Server List (Left Sidebar) */}
-      <div className="w-[72px] bg-[#202225] flex flex-col items-center py-3 space-y-2 border-r border-[#1e2124]">
+    <div className="h-screen bg-[#36393f] flex flex-col">
+      {/* Horizontal Server Bar (Top) */}
+      <div className="h-[72px] bg-[#202225] flex items-center px-3 space-x-2 border-b border-[#1e2124]">
         {/* Home button */}
         <div className="w-12 h-12 bg-[#5865f2] rounded-2xl flex items-center justify-center cursor-pointer hover:rounded-xl transition-all duration-200">
           <Image src="/builda-logo.webp" alt="Discord" width={28} height={28} className="rounded-full" />
         </div>
 
-        <div className="w-8 h-0.5 bg-[#36393f] rounded"></div>
+        <div className="h-8 w-0.5 bg-[#36393f] rounded"></div>
 
         {/* Servers */}
         {mockServers.map((server) => (
@@ -135,12 +135,12 @@ export default function DiscordClubPage() {
                 </div>
               )}
               {server.isActive && (
-                <div className="absolute -left-2 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-white rounded-r"></div>
+                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 h-1 w-8 bg-white rounded-t"></div>
               )}
             </div>
 
             {/* Tooltip */}
-            <div className="absolute left-16 top-1/2 transform -translate-y-1/2 bg-black text-white text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
+            <div className="absolute top-16 left-1/2 transform -translate-x-1/2 bg-black text-white text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
               {server.name}
             </div>
           </div>
@@ -156,6 +156,19 @@ export default function DiscordClubPage() {
           <Search className="w-6 h-6 text-[#3ba55c] group-hover:text-white" />
         </div>
       </div>
+
+      {/* Secondary Navigation */}
+      <div className="h-12 bg-[#2f3136] border-b border-[#202225] flex items-center px-4 space-x-6">
+        <button className="text-gray-300 hover:text-white text-sm font-medium">Overview</button>
+        <button className="text-gray-300 hover:text-white text-sm font-medium">Members</button>
+        <button className="text-gray-300 hover:text-white text-sm font-medium">Settings</button>
+        <button className="text-gray-300 hover:text-white text-sm font-medium">Treasury</button>
+        <button className="text-gray-300 hover:text-white text-sm font-medium">Analytics</button>
+        <button className="text-gray-300 hover:text-white text-sm font-medium">Rewards</button>
+      </div>
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex">
 
       {/* Channel Sidebar */}
       <div className="w-60 bg-[#2f3136] flex flex-col border-r border-[#202225]">
@@ -349,6 +362,7 @@ export default function DiscordClubPage() {
             </div>
           ))}
         </div>
+      </div>
       </div>
     </div>
   )
