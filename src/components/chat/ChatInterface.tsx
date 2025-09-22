@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { usePrivy } from '@privy-io/react-auth'
-import { useChat } from '@/hooks/useChat'
+import { useMockChat } from '@/hooks/useMockChat'
 import { Message } from '@/lib/types/chat'
 import { MessageBubble } from './MessageBubble'
 import { MessageInput } from './MessageInput'
@@ -35,7 +35,7 @@ export function ChatInterface({ clubId, clubName, initialChannelId }: ChatInterf
     switchChannel,
     loadMoreMessages,
     clearError
-  } = useChat(clubId, initialChannelId)
+  } = useMockChat(clubId, initialChannelId)
 
   // Auto-scroll to bottom when new messages arrive
   const scrollToBottom = () => {
