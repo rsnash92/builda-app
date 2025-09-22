@@ -2,8 +2,7 @@
 
 import { useState } from 'react'
 import { DiscordLayout } from '@/components/DiscordLayout'
-import { ChatInterface } from '../[id]/components/ChatInterface'
-import { SpecialChannelView } from '../[id]/components/SpecialChannelView'
+import { ChatInterface } from '@/components/chat/ChatInterface'
 import { ClubWithMembers } from '@/lib/database/types'
 
 // Mock club data
@@ -74,11 +73,12 @@ export default function DiscordClubPage() {
   }
 
   const renderMainContent = () => {
-    if (channelType === 'special') {
-      return <SpecialChannelView channelType={currentChannel as any} club={mockClub} />
-    }
-    
-    return <ChatInterface channelName={currentChannel} channelType={channelType} />
+    return (
+      <ChatInterface
+        clubId={mockClub.id}
+        clubName={mockClub.name}
+      />
+    )
   }
 
   return (
