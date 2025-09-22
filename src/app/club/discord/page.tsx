@@ -1,10 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { AppLayout } from '@/components/AppLayout'
 import { DiscordChatArea } from '@/components/chat/DiscordChatArea'
 import { ClubWithMembers } from '@/lib/database/types'
-import { Hash, Volume2, Megaphone, Crown, Users } from 'lucide-react'
+import { Hash, Volume2, Megaphone, Crown, Users, Minus, Square, X } from 'lucide-react'
 import Image from 'next/image'
 
 // Mock club data
@@ -32,88 +31,89 @@ const mockClub: ClubWithMembers = {
   member_count: 287
 }
 
-// Mock channels data
+// Mock channels with thumbnails (simulating Discord-style server icons)
 const mockChannels = [
-  { id: 'general', name: 'general', type: 'text' as const, icon: Hash, unread: 0 },
-  { id: 'announcements', name: 'announcements', type: 'announcement' as const, icon: Megaphone, unread: 2 },
-  { id: 'treasury', name: 'treasury', type: 'special' as const, icon: Crown, unread: 0 },
-  { id: 'building', name: 'building', type: 'text' as const, icon: Hash, unread: 1 },
-  { id: 'voice-general', name: 'General Voice', type: 'voice' as const, icon: Volume2, unread: 0 }
+  { id: 'lofi', name: 'Lofi Hip Hop', type: 'text' as const, icon: '🎵', color: 'from-purple-500 to-pink-500' },
+  { id: 'jdoodle', name: 'JDoodle', type: 'text' as const, icon: 'JD', color: 'from-blue-500 to-cyan-500' },
+  { id: 'next', name: 'Next.js', type: 'text' as const, icon: '▲', color: 'from-black to-gray-800' },
+  { id: 'omitheworld', name: 'OmiTheWorld', type: 'text' as const, icon: '🌍', color: 'from-green-500 to-teal-500' },
+  { id: 'cyber', name: 'Cyberpunk', type: 'text' as const, icon: '🤖', color: 'from-yellow-500 to-orange-500' },
+  { id: 'nvy', name: 'NVY', type: 'text' as const, icon: 'N', color: 'from-indigo-500 to-purple-500' },
+  { id: 'bkly', name: 'Brooklyn', type: 'text' as const, icon: 'B', color: 'from-cyan-500 to-blue-500' },
+  { id: 'mosaic', name: 'Mosaic', type: 'text' as const, icon: '🎨', color: 'from-orange-500 to-red-500' },
+  { id: 'google', name: 'Google', type: 'text' as const, icon: 'G', color: 'from-red-500 to-yellow-500' }
 ]
 
 export default function DiscordClubPage() {
-  const [activeChannel, setActiveChannel] = useState('general')
+  const [activeChannel, setActiveChannel] = useState('lofi')
 
-  // Create the horizontal channel tabs header
-  const channelTabsHeader = (
-    <div className="bg-[#36393f] border-b border-[#202225] px-4 py-3">
-      <div className="flex items-center space-x-6">
-        {/* Builda Logo */}
-        <div className="flex items-center space-x-3">
-          <Image
-            src="/builda-logo.webp"
-            alt="builda.club"
-            width={24}
-            height={24}
-            className="w-6 h-6 rounded-full"
-            priority
-          />
-          <span className="text-white font-semibold text-lg">{mockClub.name}</span>
+  return (
+    <div className="h-screen bg-[#2f3136] flex flex-col">
+      {/* Discord-style header bar */}
+      <div className="bg-[#202225] h-8 flex items-center justify-between px-2 border-b border-[#1e2124]">
+        <div className="flex items-center space-x-2">
+          <div className="w-4 h-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+          <span className="text-white text-sm font-medium">Discord</span>
         </div>
+        <div className="flex items-center space-x-1">
+          <button className="w-8 h-6 flex items-center justify-center hover:bg-[#36393f] rounded">
+            <Minus className="w-3 h-3 text-white" />
+          </button>
+          <button className="w-8 h-6 flex items-center justify-center hover:bg-[#36393f] rounded">
+            <Square className="w-3 h-3 text-white" />
+          </button>
+          <button className="w-8 h-6 flex items-center justify-center hover:bg-red-500 rounded">
+            <X className="w-3 h-3 text-white" />
+          </button>
+        </div>
+      </div>
 
-        {/* Channel tabs */}
-        <div className="flex items-center space-x-1 overflow-x-auto">
+      {/* Channel thumbnails header */}
+      <div className="bg-[#2f3136] px-4 py-3 border-b border-[#202225]">
+        <div className="flex items-center space-x-4 overflow-x-auto">
           {mockChannels.map((channel) => {
-            const Icon = channel.icon
             const isActive = channel.id === activeChannel
 
             return (
               <button
                 key={channel.id}
                 onClick={() => setActiveChannel(channel.id)}
-                className={`flex items-center space-x-2 px-3 py-1.5 rounded transition-colors whitespace-nowrap relative ${
-                  isActive
-                    ? 'bg-[#404249] text-white'
-                    : 'text-gray-300 hover:bg-[#404249] hover:text-white'
-                }`}
+                className={`flex-shrink-0 relative group ${isActive ? '' : 'hover:scale-105'} transition-transform`}
               >
-                <Icon className="w-4 h-4" />
-                <span className="text-sm font-medium">{channel.name}</span>
-                {channel.unread > 0 && (
-                  <div className="w-4 h-4 bg-[#f23f42] rounded-full flex items-center justify-center">
-                    <span className="text-xs text-white font-bold">{channel.unread}</span>
-                  </div>
-                )}
-                {channel.type === 'voice' && (
-                  <Users className="w-3 h-3 text-gray-400" />
-                )}
+                <div className={`w-12 h-12 bg-gradient-to-br ${channel.color} rounded-full flex items-center justify-center text-white font-bold shadow-lg ${
+                  isActive ? 'ring-2 ring-white ring-offset-2 ring-offset-[#2f3136]' : ''
+                }`}>
+                  {channel.icon}
+                </div>
+
+                {/* Server name tooltip */}
+                <div className="absolute top-14 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
+                  {channel.name}
+                </div>
+
+                {/* Active indicator */}
                 {isActive && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white rounded-t"></div>
+                  <div className="absolute -left-2 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-white rounded-r"></div>
                 )}
               </button>
             )
           })}
+
+          {/* Add server button */}
+          <button className="flex-shrink-0 w-12 h-12 bg-[#36393f] hover:bg-[#3ba55c] rounded-full flex items-center justify-center transition-colors group">
+            <span className="text-[#3ba55c] group-hover:text-white text-xl font-bold">+</span>
+          </button>
         </div>
       </div>
-    </div>
-  )
 
-  return (
-    <AppLayout
-      pageTitle="Discord-Style Club Chat"
-      currentClubId={mockClub.id}
-      isLoggedIn={true}
-      user={{ username: 'alice', avatar: undefined }}
-      currentClub={{ name: mockClub.name, id: mockClub.id }}
-      additionalHeaderContent={channelTabsHeader}
-    >
-      <div className="h-full bg-[#36393f]">
+      {/* Main chat area */}
+      <div className="flex-1 bg-[#36393f]">
         <DiscordChatArea
           clubId={mockClub.id}
-          clubName={mockClub.name}
+          clubName={mockChannels.find(c => c.id === activeChannel)?.name || 'Channel'}
           activeChannelId={activeChannel}
         />
       </div>
-    </AppLayout>
+    </div>
   )
 }
