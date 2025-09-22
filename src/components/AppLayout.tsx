@@ -4,6 +4,7 @@ import { ReactNode, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePrivy } from '@privy-io/react-auth'
 import {
   Play,
   Box,
@@ -55,6 +56,14 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
   const pathname = usePathname()
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [showHamburger, setShowHamburger] = useState(false)
+  const { login, logout, authenticated, user: privyUser } = usePrivy()
+
+  // Use Privy auth state if available, otherwise fallback to props
+  const isUserAuthenticated = authenticated || isLoggedIn
+  const currentUser = privyUser ? {
+    username: privyUser.email?.address || privyUser.id,
+    avatar: undefined
+  } : user
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed)
@@ -190,12 +199,12 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
           <div className="flex items-center justify-between">
             {/* Left side - Breadcrumbs or Search */}
             <div className="flex items-center">
-              {isLoggedIn ? (
+              {isUserAuthenticated ? (
                 <BreadcrumbNav
-                  username={user?.username}
+                  username={currentUser?.username}
                   clubName={currentClub?.name}
                   clubId={currentClub?.id}
-                  userAvatar={user?.avatar}
+                  userAvatar={currentUser?.avatar}
                 />
               ) : (
                 <div className="relative">
@@ -211,12 +220,26 @@ export function AppLayout({ children, pageTitle = "builda.club", additionalHeade
 
             {/* Right side - Action Buttons */}
             <div className="flex items-center space-x-3">
-              <button className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors font-medium">
-                Create club
-              </button>
-              <button className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors font-medium">
-                Log in
-              </button>
+              <Link href="/create-club">
+                <button className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors font-medium">
+                  Create club
+                </button>
+              </Link>
+              {isUserAuthenticated ? (
+                <button
+                  onClick={logout}
+                  className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors font-medium"
+                >
+                  Log out
+                </button>
+              ) : (
+                <button
+                  onClick={login}
+                  className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors font-medium"
+                >
+                  Log in
+                </button>
+              )}
             </div>
           </div>
           {/* Additional Header Content */}
