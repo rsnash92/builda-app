@@ -5,6 +5,7 @@ import { AppLayout } from '@/components/AppLayout'
 import { DiscordChatArea } from '@/components/chat/DiscordChatArea'
 import { ClubWithMembers } from '@/lib/database/types'
 import { Hash, Volume2, Megaphone, Crown, Users } from 'lucide-react'
+import Image from 'next/image'
 
 // Mock club data
 const mockClub: ClubWithMembers = {
@@ -45,35 +46,54 @@ export default function DiscordClubPage() {
 
   // Create the horizontal channel tabs header
   const channelTabsHeader = (
-    <div className="bg-[#2f3136] border-b border-[#202225] px-4 py-2">
-      <div className="flex items-center space-x-1 overflow-x-auto">
-        {mockChannels.map((channel) => {
-          const Icon = channel.icon
-          const isActive = channel.id === activeChannel
+    <div className="bg-[#36393f] border-b border-[#202225] px-4 py-3">
+      <div className="flex items-center space-x-6">
+        {/* Builda Logo */}
+        <div className="flex items-center space-x-3">
+          <Image
+            src="/builda-logo.webp"
+            alt="builda.club"
+            width={24}
+            height={24}
+            className="w-6 h-6 rounded-full"
+            priority
+          />
+          <span className="text-white font-semibold text-lg">{mockClub.name}</span>
+        </div>
 
-          return (
-            <button
-              key={channel.id}
-              onClick={() => setActiveChannel(channel.id)}
-              className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors whitespace-nowrap ${
-                isActive
-                  ? 'bg-[#5865f2] text-white'
-                  : 'text-gray-300 hover:bg-[#36393f] hover:text-white'
-              }`}
-            >
-              <Icon className="w-4 h-4" />
-              <span className="text-sm font-medium">{channel.name}</span>
-              {channel.unread > 0 && (
-                <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
-                  <span className="text-xs text-white font-bold">{channel.unread}</span>
-                </div>
-              )}
-              {channel.type === 'voice' && (
-                <Users className="w-4 h-4 text-gray-400" />
-              )}
-            </button>
-          )
-        })}
+        {/* Channel tabs */}
+        <div className="flex items-center space-x-1 overflow-x-auto">
+          {mockChannels.map((channel) => {
+            const Icon = channel.icon
+            const isActive = channel.id === activeChannel
+
+            return (
+              <button
+                key={channel.id}
+                onClick={() => setActiveChannel(channel.id)}
+                className={`flex items-center space-x-2 px-3 py-1.5 rounded transition-colors whitespace-nowrap relative ${
+                  isActive
+                    ? 'bg-[#404249] text-white'
+                    : 'text-gray-300 hover:bg-[#404249] hover:text-white'
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                <span className="text-sm font-medium">{channel.name}</span>
+                {channel.unread > 0 && (
+                  <div className="w-4 h-4 bg-[#f23f42] rounded-full flex items-center justify-center">
+                    <span className="text-xs text-white font-bold">{channel.unread}</span>
+                  </div>
+                )}
+                {channel.type === 'voice' && (
+                  <Users className="w-3 h-3 text-gray-400" />
+                )}
+                {isActive && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white rounded-t"></div>
+                )}
+              </button>
+            )
+          })}
+        </div>
       </div>
     </div>
   )
