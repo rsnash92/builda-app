@@ -14,7 +14,8 @@ import { TreasuryDashboard } from '../[id]/components/TreasuryDashboard'
 import { ResourcesSection } from '../[id]/components/ResourcesSection'
 import { MemberDashboard } from '../[id]/components/MemberDashboard'
 import { ClubWithMembers } from '@/lib/database/types'
-import { AppLayout } from '@/components/AppLayout'
+import { DiscordLayout } from '@/components/DiscordLayout'
+import { DiscordChatContent } from '@/components/DiscordChatContent'
 import { QuickStatsBar } from '../[id]/components/QuickStatsBar'
 import { RecentActivity } from '../[id]/components/RecentActivity'
 
@@ -111,18 +112,14 @@ export default function AuthenticatedDemoClubPage() {
   }
 
   return (
-    <AppLayout 
-      pageTitle={mockClub.name}
-      additionalHeaderContent={
-        <ClubHeaderNavigation 
-          club={mockClub} 
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
-      }
+    <DiscordLayout
+      currentClub={{
+        name: mockClub.name,
+        id: mockClub.id,
+        memberCount: mockClub.member_count
+      }}
     >
-      {/* Dynamic Content Based on Active Tab */}
-      {renderContent()}
-    </AppLayout>
+      <DiscordChatContent clubName={mockClub.name} />
+    </DiscordLayout>
   )
 }
