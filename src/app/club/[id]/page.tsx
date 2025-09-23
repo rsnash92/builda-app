@@ -16,8 +16,8 @@ import { ChatSection } from './components/ChatSection'
 import { TreasuryDashboard } from './components/TreasuryDashboard'
 import { ResourcesSection } from './components/ResourcesSection'
 import { MemberDashboard } from './components/MemberDashboard'
-import { AppLayout } from '@/components/AppLayout'
-import { ClubHeaderNavigation } from './components/ClubHeaderNavigation'
+import { DiscordLayout } from '@/components/DiscordLayout'
+import { DiscordChatContent } from '@/components/DiscordChatContent'
 
 export default function AuthenticatedClubPage() {
   const params = useParams()
@@ -125,18 +125,14 @@ export default function AuthenticatedClubPage() {
   }
 
   return (
-    <AppLayout 
-      pageTitle={club.name}
-      additionalHeaderContent={
-        <ClubHeaderNavigation 
-          club={club} 
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
-      }
+    <DiscordLayout
+      currentClub={{
+        name: club.name,
+        id: club.id,
+        memberCount: club.members?.length || 0
+      }}
     >
-      {/* Dynamic Content Based on Active Tab */}
-      {renderContent()}
-    </AppLayout>
+      <DiscordChatContent clubName={club.name} />
+    </DiscordLayout>
   )
 }
